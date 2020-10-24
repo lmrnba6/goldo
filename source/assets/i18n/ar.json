@@ -101,12 +101,12 @@
       "dinar": "دينار",
       "product": "المنتوج",
       "amountDue": "المبلغ المستحق",
-      "goldIn": "تلقى الذهب",
+      "goldIn": "الذهب المستلم",
       "goldOut": "الذهب المدفوع",
       "amountIn": "المبلغ المستلم",
       "amountOut": "المبلغ المدفوع",
-      "totalGold": "مجموع الذهب",
-      "totalAmount": "مجموع المال",
+      "totalGold": "رصيد الذهب",
+      "totalAmount": "رصيد المال",
       "client": "الزبون",
       "date": "التاريخ",
       "from": "من",
@@ -154,7 +154,7 @@
   "employee-management": {
     "information" : "معلومات",
     "comment": "ملاحظات",
-    "payment": "الدفع",
+    "payment": "الراتب",
     "transaction": "الصفقات"
   },
   "register": {
@@ -163,7 +163,7 @@
     "recipe": "الواردات",
     "expense": "النفقات",
     "placeholder": {
-      "sold": "مبلغ",
+      "sold": "الرصيد",
       "responsible": "المستخدم",
       "amount": "المبلغ",
       "date": "التاريخ",
@@ -180,7 +180,7 @@
     "error_field_required": "هذا الحقل مطلوب",
     "error_login": "اسم المستخدم أو كلمة المرور خاطئة.",
     "field_required_error": "يجب عليك إدخال قيمة",
-    "remove_row_warning_message": "هل ترغب في حذف هذه القائمة؟",
+    "remove_row_warning_message": "يرجى تأكيد هذا الحذف؟",
     "warning_title": "تحذير",
     "operation_success_message": "ناجح: نجاح العملية",
     "something_went_wrong_message": "حدث خطأ.",

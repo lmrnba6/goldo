@@ -322,7 +322,7 @@ export class TransactionFormComponent implements OnInit {
             .confirm('register.title', 'messages.add_to_register_message', true, 'usd')
             .subscribe(confirm => {
                 if (confirm) {
-                    this.router.navigate(['register/form/type/' + (this.transaction.amountIn < 0 ? '+' : '-') + '/' + this.transaction.amountIn])
+                    this.router.navigate(['register/form/type/+' + '/' + this.transaction.amountIn])
                 }
             });
     }

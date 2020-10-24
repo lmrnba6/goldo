@@ -93,11 +93,7 @@ export class NavComponent implements OnInit {
     /**
      * hideOrShowMenu
      */
-    public
-
-    toggleMenu()
-        :
-        void {
+    public toggleMenu(): void {
         this.menu.emit();
     }
 

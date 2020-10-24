@@ -37,7 +37,7 @@ export class AppComponent {
             this.navigationInterceptor(event)
         });
 
-        translate.setDefaultLang('fr');
+        translate.setDefaultLang('ar');
         translate.use('fr');
 
         Settings.initialize();

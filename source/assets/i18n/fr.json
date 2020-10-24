@@ -74,7 +74,7 @@
       "phone": "Téléphone",
       "comment": "Commentaire",
       "date": "Date",
-      "client": "Ètudiant",
+      "client": "Clinet",
       "instructor": "Enseignant"
     }
   },
@@ -108,6 +108,7 @@
       "amountOut": "Montant sorti",
       "totalGold": "Solde d'Or",
       "totalAmount": "Solde d'argent",
+      "client": "Clinet",
       "date": "Date",
       "from": "De",
       "to": "A",

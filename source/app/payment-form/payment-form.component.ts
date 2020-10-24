@@ -186,7 +186,7 @@ export class PaymentFormComponent implements OnInit {
             .confirm('register.title', 'messages.add_to_register_message', true, 'usd')
             .subscribe(confirm => {
                 if (confirm) {
-                    this.router.navigate(['register/form/type/' + (this.payment.amount > 0 ? '+' : '-') + '/' + this.payment.amount])
+                    this.router.navigate(['register/form/type/-' + '/' + this.payment.amount])
                 }
             });
     }

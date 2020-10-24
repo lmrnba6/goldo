@@ -1,7 +1,7 @@
 {
   "name": "Goldo",
   "productName": "Goldo",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "School management software",
   "author": "rsi-technologies",
   "main": "index.js",

@@ -155,6 +155,9 @@ export class AbstractTableComponent
                 } else if (col.type === 'day') {
                     o[this.translate.instant(col.header)] = this.translate.instant('weekday.placeholder.' + obj[col.columnDef]);
                     arr.push(this.translate.instant('weekday.placeholder.' + obj[col.columnDef]));
+                }else if (col.type === 'img') {
+                    o[this.translate.instant(col.header)] = '';
+                    arr.push('');
                 } else {
                     o[this.translate.instant(col.header)] = obj[col.columnDef] || '';
                     arr.push(obj[col.columnDef] || '');
@@ -177,12 +180,12 @@ export class AbstractTableComponent
                 doc.text(title, 20, 20);
 
                 // Footer
-                const str = "Page " + doc.cliental.getNumberOfPages()
+                const str = "Page " + doc.internal.getNumberOfPages()
                 // Total page number plugin only available in jspdf v1.0+
                 doc.setFontSize(10);
 
                 // jsPDF 1.4+ uses getWidth, <1.4 uses .width
-                doc.text(str, 10, doc.cliental.pageSize.height - 10);
+                doc.text(str, 10, doc.internal.pageSize.height - 10);
             },
             margin: {top: 30, bottom: 20}
         });
