@@ -1,0 +1,48 @@
+<h2>{{'register.title'| translate}} - {{register?.amount}} -</h2>
+<mat-divider></mat-divider>
+<mat-card>
+    <app-loader *ngIf="block" [color]="color" [mode]="mode" [value]="value" [diameter]="48">
+    </app-loader>
+    <form [formGroup]="registerForm">
+        <div class="container">
+            <button [disabled]="registerForm.invalid" class="pull-right save" (click)="onSave()" type="button" mat-button>
+                <span class="glyphicon glyphicon-floppy-disk"></span>
+            </button>
+            <button class="pull-right cancel" type="button" (click)="onCancel()" mat-button>
+                <span class="glyphicon glyphicon-arrow-left"></span>
+            </button>
+            <mat-form-field appearance="outline">
+                <mat-label>{{'register.placeholder.amount' | translate}}</mat-label>
+                <input name="amount" type="number" (blur)="parseAmount($event.target['value'])" formControlName="amount"
+                       [ngModel]="register.amount" matInput
+                       required autofocus>
+                <span style="color: red" *ngIf="sign === '-'" matPrefix class="glyphicon glyphicon-arrow-up"></span>
+                <span style="color: #28a745" *ngIf="sign === '+'" matPrefix
+                      class="glyphicon glyphicon-arrow-down"></span>
+                <span matSuffix>{{'transaction.placeholder.dinar' | translate}}</span>
+                <mat-error *ngIf="amount.invalid">{{'messages.field_required_error' | translate}}</mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="outline">
+                <mat-label>{{'register.placeholder.date' | translate}}</mat-label>
+                <input name="date" formControlName="date" [(ngModel)]="register.date" matInput
+                       required [matDatepicker]="picker">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker touchUi #picker></mat-datepicker>
+                <mat-error *ngIf="date.invalid">{{'messages.field_required_error' | translate}}</mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="outline">
+                <mat-label>{{'register.placeholder.comment' | translate}}</mat-label>
+                <textarea name="comment" formControlName="comment" [(ngModel)]="register.comment" matInput
+                          placeholder="{{'register.placeholder.comment' | translate}}" ></textarea>
+                <mat-error *ngIf="comment.invalid">{{'messages.field_required_error' | translate}}</mat-error>
+            </mat-form-field>
+            <br>
+        </div>
+    </form>
+    <div class="container">
+        <p></p>
+        <mat-checkbox *ngIf="isOnEdit" style="font-size: 1.5rem" [(ngModel)]="register.error">{{'register.placeholder.error' | translate}}</mat-checkbox>
+    </div>
+</mat-card>

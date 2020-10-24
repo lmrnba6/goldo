@@ -1,0 +1,81 @@
+<h2>{{'menu.calculator'| translate}}</h2>
+<mat-divider></mat-divider>
+<mat-card>
+    <app-loader *ngIf="block" [color]="color" [mode]="mode" [value]="value" [diameter]="48">
+    </app-loader>
+    <div class="container">
+        <mat-accordion>
+            <mat-expansion-panel disabled hideToggle [expanded]="true">
+                <mat-expansion-panel-header style="background: #e9ecef">
+                    <mat-panel-title style="display: flex">
+                        <img (error)="fixImage($event)" width="45" height="45" [src]="calculatorImage" alt="">
+                    </mat-panel-title>
+                    <mat-panel-description
+                            style="color: #007bff; font-weight: bold; font-size: 2rem; font-family: monospace">
+                        {{transaction.amountDue || 0}} {{'transaction.placeholder.dinar' | translate}} |
+                        {{transaction.totalGold || 0}} {{'transaction.placeholder.gram' | translate}}
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div style="margin-top: 20px; display: flex; align-items: center;">
+                    <mat-form-field appearance="outline" style="margin-right: 10px; flex-grow: 1">
+                        <mat-label>{{'transaction.placeholder.product' | translate}}</mat-label>
+                        <mat-select [ngModelOptions]="{standalone: true}" [ngModel]="productSelected"
+                                    (selectionChange)="onProductChange($event.value)">
+                            <mat-option value=""></mat-option>
+                            <mat-option *ngFor="let product of products" [value]="product">
+                                <img [src]="(product.photo || noImage) | safe" width="40" height="40" style="border-radius: 5px
+" alt="">
+                                {{product.name}} [ {{product.price}} {{'product.placeholder.dinarByGram' | translate}} ]
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'product.placeholder.quantity' | translate}}</mat-label>
+                        <input [min]="0" type="number" [ngModelOptions]="{standalone: true}"
+                               [ngModel]="productSelected.quantity"
+                               (input)="productSelected.quantity = $event.target.value" matInput>
+                        <span matSuffix>{{'transaction.placeholder.gram' | translate}}</span>
+                    </mat-form-field>
+                    <br>
+                    <button [disabled]="productSelected.quantity <=0 || productSelected?.id === -1 || !productSelected"
+                            type="button" mat-raised-button
+                            style="margin-left: 10px;  margin-bottom: 15px; border: 1px solid"
+                            (click)="addProduct()"><span class="glyphicon glyphicon-plus"></span></button>
+                </div>
+                <table class="content-table">
+                    <thead>
+                    <tr>
+                        <th>{{'client.placeholder.photo' | translate}}</th>
+                        <th>{{'product.title' | translate}}</th>
+                        <th>{{'product.placeholder.price' | translate}}</th>
+                        <th>{{'product.placeholder.quantity' | translate}}</th>
+                        <th>{{'transaction.placeholder.total' | translate}}</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let p of productsSelected">
+                        <td><img width="30" height="30" style="margin-right: 5px; border-radius: 5px"
+                                 (error)="fixImage($event)" [src]="(p.photo || noImage) | safe" alt=""></td>
+                        <td>{{p.name}}</td>
+                        <td>{{p.price}} {{'product.placeholder.dinarByGram' | translate}}</td>
+                        <td>{{p.quantity}} {{'transaction.placeholder.gram' | translate}}</td>
+                        <td>{{p.price * p.quantity}} {{'transaction.placeholder.dinar' | translate}}</td>
+                        <td><span style="color: red" class="glyphicon glyphicon-remove-circle"
+                                  (click)="deleteProduct(p)"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold">{{'transaction.placeholder.total' | translate}}</td>
+                        <td></td>
+                        <td></td>
+                        <td style="font-weight: bold">{{transaction.totalGold || 0}} {{'transaction.placeholder.gram' | translate}}</td>
+                        <td style="font-weight: bold">{{transaction.amountDue || 0}} {{'transaction.placeholder.dinar' | translate}}</td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+
+</mat-card>

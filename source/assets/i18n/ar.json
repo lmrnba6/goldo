@@ -1,0 +1,200 @@
+{
+  "nav": {
+    "home": "الرئيسية",
+    "logout": "خروج",
+    "title": "عنوان",
+    "help": "المساعدة"
+  },
+  "login": {
+    "login": "تسجيل الدخول",
+    "username": "اسم المستخدم",
+    "password": "كلمة المرور"
+  },
+  "abstractTable": {
+    "filter": "البحث",
+    "printTitleMessage": "الرجاء اختيار العنوان الذي سيكون في أعلى الصفحة",
+    "pageTitle": "عنوان"
+  },
+  "menu": {
+    "stats": "الإحصائيات",
+    "calculator": "آلة حاسبة",
+    "transaction": "الصفقات",
+    "logs": "الاخطاء",
+    "account": "الحساب",
+    "settings": "الاعدادت",
+    "client": "الزبائن",
+    "document": "المستندات",
+    "product": "المنتجات",
+    "payment": "التسديدات",
+    "result": "الإحصائيات",
+    "register": "الصندوق",
+    "employee": "الموظفين"
+  },
+  "administration": {
+    "information" : "معلومات",
+    "remote": "قاعدة بيانات الويب",
+    "title": "الإدارة",
+    "transportation": "النقل",
+    "transport": "برنامج",
+    "reception": "الرئيسية",
+    "school": "أنشطة مدرسيّة",
+    "database": "قاعدة بيانات",
+    "user_management": "إدارة المستخدمين"
+  },
+  "client": {
+    "title": "الزبون",
+    "placeholder": {
+      "name" : "الاسم",
+      "email": "البرید الالكتروني",
+      "address": "العنوان",
+      "phone": "الهاتف",
+      "phone2": "الهاتف الثاني",
+      "isAllowed": "مجمد",
+      "photo": "صورة",
+      "sold": "مبلغ"
+    }
+  },
+  "employee": {
+    "title": "الموظفين",
+    "placeholder": {
+      "name" : "الاسم",
+      "email": "البرید الالكتروني",
+      "address": "العنوان",
+      "phone": "الهاتف",
+      "phone2": "الهاتف الثاني",
+      "isAllowed": "مجمد",
+      "photo": "صورة",
+      "sold": "مبلغ"
+    }
+  },
+  "comment": {
+    "title": "ملاحظات",
+    "placeholder": {
+      "name" : "الاسم",
+      "phone": "الهاتف",
+      "comment": "الملاحظة",
+      "date": "التاريخ",
+      "client": "الزبون"
+    }
+  },
+  "payment": {
+    "title": "الدفع",
+    "placeholder": {
+      "error": "ضع علامة على هذا الدفع على أنه خطأ",
+      "amount": "المبلغ",
+      "date": "التاريخ",
+      "comment": "الملاحظات",
+      "employee": "الموظف",
+      "responsible": "المستخدم",
+      "transaction": "صفقة"
+    }
+  },
+  "transaction": {
+    "title": "الصفقات",
+    "noCharge": "الدفع لأسباب أخرى",
+    "createdBy": "المستخدم",
+    "buy": "بــيــع",
+    "placeholder": {
+      "calculator": "آلة حاسبة",
+      "total": "الإجمالي",
+      "gram": "جرامات",
+      "dinar": "دينار",
+      "product": "المنتوج",
+      "amountDue": "المبلغ المستحق",
+      "goldIn": "تلقى الذهب",
+      "goldOut": "الذهب المدفوع",
+      "amountIn": "المبلغ المستلم",
+      "amountOut": "المبلغ المدفوع",
+      "totalGold": "مجموع الذهب",
+      "totalAmount": "مجموع المال",
+      "client": "الزبون",
+      "date": "التاريخ",
+      "from": "من",
+      "to": "إلى",
+      "comment": "الملاحظات"
+    }
+  },
+  "user": {
+    "admin": "المسؤول",
+    "user": "المستخدم",
+    "student": "الزبون",
+    "teacher": "مدرس",
+    "parent": "الأبوين",
+    "username": "اسم المستخدم",
+    "name": "الاسم",
+    "role": "الوظيفة",
+    "placeholder": {
+      "username": "اسم المستخدم",
+      "name": "الاسم",
+      "password": "كلمة المرور",
+      "role": "الوظيفة"
+    }
+  },
+  "product": {
+    "title": "المنتجات",
+    "add": "إضافة منتج جديد",
+    "year": "السنوات",
+    "placeholder": {
+      "gram": "جرامات",
+      "dinar": "دينار",
+      "dinarByGram": "دينار / غرام",
+      "quantity": "الكمية",
+      "price": "السعر",
+      "description": "وصف المنتج",
+      "name": "الاسم",
+      "category": "الفئة"
+    }
+  },
+  "client-management": {
+    "information" : "معلومات",
+    "comment": "ملاحظات",
+    "payment": "الدفع",
+    "transaction": "الصفقات"
+  },
+  "employee-management": {
+    "information" : "معلومات",
+    "comment": "ملاحظات",
+    "payment": "الدفع",
+    "transaction": "الصفقات"
+  },
+  "register": {
+    "title": "الصندوق",
+    "global": "الإجمالي",
+    "recipe": "الواردات",
+    "expense": "النفقات",
+    "placeholder": {
+      "sold": "مبلغ",
+      "responsible": "المستخدم",
+      "amount": "المبلغ",
+      "date": "التاريخ",
+      "from": "من",
+      "to": "إلى",
+      "comment": "الملاحظات",
+      "error": "ضع علامة على هذا الدفع على أنه خطأ"
+    },
+    "soldAll":"رصيد الحساب اجمالي",
+    "sold":"رصيد حساب الفترة"
+  },
+  "messages": {
+    "unable_delete_relation": "لا يمكن حذف هذا السطر لأنه يحتوي على معلومات مرتبطة به",
+    "error_field_required": "هذا الحقل مطلوب",
+    "error_login": "اسم المستخدم أو كلمة المرور خاطئة.",
+    "field_required_error": "يجب عليك إدخال قيمة",
+    "remove_row_warning_message": "هل ترغب في حذف هذه القائمة؟",
+    "warning_title": "تحذير",
+    "operation_success_message": "ناجح: نجاح العملية",
+    "something_went_wrong_message": "حدث خطأ.",
+    "no_result": "لا توجد نتائج",
+    "sync_database_warning_message": "هل تريد مزامنة قاعدة بيانات مع القاعدة المحلية؟",
+    "blocked": "مجمد",
+    "name_exist": "هذا الاسم موجود بالفعل",
+    "username_exist": "اسم المستخدم هذا موجود بالفعل",
+    "add_to_register_message": "هل ترغب في إضافة هذا المبلغ إلى الصندوق؟"
+  },
+  "buttons": {
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "yes": "نعم",
+    "no": "لا"
+  }
+}

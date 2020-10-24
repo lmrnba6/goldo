@@ -1,0 +1,93 @@
+@import "../../assets/sass/style";
+
+.mat-drawer-content {
+  background: white;
+}
+
+.example-container {
+  position: absolute;
+  top: 8%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  flex: 1;
+}
+
+.mat-drawer-container {
+  position: absolute !important;
+}
+
+.example-sidenav {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  //width: 20%;
+  background: white;
+  margin-top: 1px;
+  margin-right: 5%;
+  a {
+    color: #000000;
+    padding-left: 3%;
+    font-size: 20px;
+    font-family: monospace;
+    font-weight: bold;
+  }
+}
+
+.mat-drawer-content {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+}
+
+.btn-add {
+  width: 100%;
+  background: #f93e3e;
+}
+
+.mat-icon {
+  margin-right: 1%;
+}
+
+.btnMenu {
+  position: relative;
+  background: #f93e3e;
+  left: -1%;
+  top: 5px;
+}
+
+.menuIcon {
+  color: #ffff;
+}
+
+a, .mat-list-item {
+  font-size: 14px;
+}
+
+.navList {
+  height: 25%;
+  color: white;
+}
+
+.glyphicon {
+  margin-left: 10px;
+  font-size: 20px;
+}
+
+.example-container .nav_item .mat-list-item-content{
+  color: black;
+  margin-top: 15px;
+  padding: 0;
+  &:hover {
+    border: solid 2px $secondary;
+  }
+}
+
+a.nav_item.mat-list-item.ng-star-inserted.active-link, a.nav_item.mat-list-item.active-link {
+  background: #b3d7ff !important;
+}
+
+::ng-deep .mat-tooltip {
+  font-size: x-large !important;
+}
+

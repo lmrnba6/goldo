@@ -1,0 +1,70 @@
+<h2>{{'product.title'| translate}} - {{product?.name}} -</h2>
+<mat-divider></mat-divider>
+<mat-card>
+    <app-loader *ngIf="block" [color]="color" [mode]="mode" [value]="value" [diameter]="48">
+    </app-loader>
+    <br>
+    <form [formGroup]="productForm">
+        <div class="container">
+            <button [disabled]="productForm.invalid" class="pull-right save" (click)="onSave()" type="button" mat-button>
+                <span class="glyphicon glyphicon-floppy-disk"></span>
+            </button>
+            <button class="pull-right cancel" type="button" (click)="onCancel()" mat-button>
+                <span class="glyphicon glyphicon-arrow-left"></span>
+            </button>
+            <mat-form-field appearance="outline">
+                <mat-label>{{'product.placeholder.name' | translate}}</mat-label>
+                <input id="productName" name="name" formControlName="name" [(ngModel)]="product.name" matInput
+                       required autofocus>
+                <span class="glyphicon glyphicon-user" matPrefix></span>
+                <mat-error *ngIf="name.invalid">{{'messages.field_required_error' | translate}}</mat-error>
+            </mat-form-field>
+            <div  class="pull-right" style="clear: both; margin-top: 10px">
+                <mat-card style="width:200px;height:200px;">
+                    <img (error)="fixImage($event)" style="width:170px;height:170px;" [src]="(photo || noImage) | safe" />
+                </mat-card>
+                <button tabIndex="-1" style="background: #8af9ff; width: 100%; border-radius: 20px; margin-top: 5px;"
+                        type="button" (click)="openFile()" mat-button>
+                    <span class="glyphicon glyphicon-picture"></span>
+                </button>
+            </div>
+            <mat-form-field appearance="outline">
+                <mat-label>{{'product.placeholder.description' | translate}}</mat-label>
+                <textarea name="description" formControlName="description" [(ngModel)]="product.description" matInput
+                          ></textarea>
+                <span class="glyphicon glyphicon-list-alt" matPrefix></span>
+                <mat-error *ngIf="description.invalid">{{'messages.field_required_error' | translate}}</mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="outline">
+                <mat-label>{{'product.placeholder.price' | translate}}</mat-label>
+                <input name="price" formControlName="price" type="number" [(ngModel)]="product.price" matInput
+                       required>
+                <span class="glyphicon glyphicon-usd" matPrefix></span>
+                <span matSuffix>{{'product.placeholder.dinarByGram' | translate}}</span>
+                <mat-error *ngIf="price.invalid">{{'messages.field_required_error' | translate}}</mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="outline">
+                <mat-label>{{'product.placeholder.quantity' | translate}}</mat-label>
+                <input name="quantity" formControlName="quantity" type="number" [(ngModel)]="product.quantity" matInput
+                       required>
+                <span class="glyphicon glyphicon-inbox" matPrefix></span>
+                <span matSuffix>{{'product.placeholder.gram' | translate}}</span>
+                <mat-error *ngIf="quantity.invalid">{{'messages.field_required_error' | translate}}</mat-error>
+            </mat-form-field>
+            <br>
+<!--            <mat-form-field appearance="outline">-->
+<!--                <mat-label>{{'product.placeholder.category' | translate}}</mat-label>-->
+<!--                <mat-select formControlName="category" [(ngModel)]="product.category" name="category" required>-->
+<!--                    <mat-option>&#45;&#45;</mat-option>-->
+<!--                    <mat-option *ngFor="let type of types" [value]="type">-->
+<!--                        {{'category.' + type | translate}}-->
+<!--                    </mat-option>-->
+<!--                </mat-select>-->
+<!--                <span class="glyphicon glyphicon-tags" matPrefix></span>-->
+<!--                <mat-error *ngIf="category.hasError('required')">{{'messages.field_required_error' | translate}}</mat-error>-->
+<!--            </mat-form-field>-->
+        </div>
+    </form>
+</mat-card>

@@ -1,0 +1,52 @@
+<h2>{{'register.title'| translate}} - {{'register.soldAll' | translate}} = <strong style="color: #007bff;"> {{soldAll?.toFixed(0)}} DA</strong></h2>
+<mat-divider></mat-divider>
+<mat-card>
+  <app-loader *ngIf="block" [color]="color" [mode]="mode" [value]="value" [diameter]="48">
+  </app-loader>
+  <div class="container">
+    <br>
+    <h3>{{'register.sold' | translate}} = <strong [ngStyle]="{color: getSold() > 0 ?  '#28a745' : 'red'}"> {{getSold().toFixed(0)}} DA</strong></h3>
+    <br>
+    <mat-form-field class="register_search" appearance="outline">
+      <mat-label>{{'register.placeholder.from' | translate}}</mat-label>
+        <input [(ngModel)]="from" matInput (dateChange)="search()"
+               required [matDatepicker]="picker">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker touchUi #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="register_search" style="margin-left: 20px" appearance="outline">
+      <mat-label>{{'register.placeholder.to' | translate}}</mat-label>
+      <input [(ngModel)]="to" matInput (dateChange)="search()"
+             required [matDatepicker]="picker1">
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker touchUi #picker1></mat-datepicker>
+    </mat-form-field>
+    <br>
+  </div>
+  <mat-tab-group (selectedTabChange)="onTabChange()" [(selectedIndex)]="tabSelected">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span style="color: #2b7bff" class="glyphicon glyphicon-inbox"></span> {{'register.global' | translate}}
+      </ng-template>
+      <div class="tab-content">
+        <app-abstract-table (deleteAll)="ngOnInit()" (sortChange)="sortOnChange($event)" (filter)="onFilter($event)" (pageChange)="onPageChange($event)" [page]="'register'" [setting]="setting" [data]="data" (editRow)="onEditRow($event)" (deleteRow)="onRowDeleted($event)" (addRow)="onAddRow()"></app-abstract-table>
+      </div>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span style="color: #28a745" class="glyphicon glyphicon-arrow-down"></span> {{'register.recipe' | translate}}
+      </ng-template>
+      <div class="tab-content">
+        <app-abstract-table (deleteAll)="ngOnInit()" (sortChange)="sortOnChange($event)" (filter)="onFilter($event)" (pageChange)="onPageChange($event)" [page]="'register'" [setting]="setting" [data]="data" (editRow)="onEditRow($event)" (deleteRow)="onRowDeleted($event)" (addRow)="onAddRow()"></app-abstract-table>
+      </div>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span style="color: red" class="glyphicon glyphicon-arrow-up"></span> {{'register.expense' | translate}}
+      </ng-template>
+      <div class="tab-content">
+        <app-abstract-table (deleteAll)="ngOnInit()" (sortChange)="sortOnChange($event)" (filter)="onFilter($event)" (pageChange)="onPageChange($event)" [page]="'register'" [setting]="setting" [data]="data" (editRow)="onEditRow($event)" (deleteRow)="onRowDeleted($event)" (addRow)="onAddRow()"></app-abstract-table>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</mat-card>

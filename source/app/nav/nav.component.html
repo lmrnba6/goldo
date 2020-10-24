@@ -1,0 +1,48 @@
+<app-loader *ngIf="block" [color]="color" [mode]="mode" [value]="value" [diameter]="48" [type]="'progress'"></app-loader>
+<header>
+    <section>
+        <h1 id="logo">{{center}}
+            <span (click)="toggleMenu()" class="glyphicon glyphicon-list list"></span>
+            <!--<span *ngIf="!isRoot()" (click)="goBack()" class="glyphicon glyphicon-arrow-left list"></span>-->
+            <!--<span *ngIf="pathForward?.length" (click)="goForward()" class="glyphicon glyphicon-arrow-right list"></span>-->
+        </h1>
+        <nav>
+            <ul>
+<!--                <li *ngIf="connected && isCloud && (isUser || isAdmin)" class="pull-left">-->
+<!--                    <p>-->
+<!--                        <app-indicator [color]="'led-green-blink'"></app-indicator>-->
+<!--                    </p>-->
+<!--                </li>-->
+                <li *ngIf="!connected && isCloud && (isUser || isAdmin)" class="pull-left">
+                    <p>
+                        <app-indicator [color]="'led-red-blink'"></app-indicator>
+                    </p>
+                </li>
+                <li (click)="goHome()" class="pull-left"><p>
+                    <img (error)="fixImage($event)" style="width: 30px" [src]="homeImage" alt="">
+                    <!--          <span class="glyphicon glyphicon-home"> </span>-->
+                    <!--{{'nav.home' | translate}}</p>-->
+                </li>
+                <!--<li class="pull-right"><p>{{date}}</p></li>-->
+                <li (click)="logout()" class="pull-right">
+                    <p>
+                        <!--            <span class="glyphicon glyphicon-off"></span>-->
+                        <img (error)="fixImage($event)" style="width: 30px" [src]="powerImage" alt="">
+                        <!--{{'nav.logout' | translate}}-->
+                    </p></li>
+                <li class="pull-right">
+                    <p>
+                        <img (error)="fixImage($event)" style="width: 30px; margin-right: 5px" [src]="userImage" alt="">{{user.name}}
+                        <!--            <span class="glyphicon glyphicon-user"></span>{{user.name}}-->
+                    </p></li>
+                <li (click)="languageChange()" class="pull-right">
+                    <p>
+                        {{languageText | translate}}
+                    </p>
+                </li>
+            </ul>
+        </nav>
+    </section>
+</header>
+
+

@@ -1,0 +1,58 @@
+<div class="layout-wrapper" style="background: white">
+    <app-nav (menu)="toggleMenu()"></app-nav>
+    <mat-sidenav-container class="example-container">
+        <mat-sidenav #sidenav mode="side" [opened]="isSideNavOpened" class="example-sidenav"
+                     [fixedInViewport]="options.fixed" [fixedTopGap]="options.top"
+                     [fixedBottomGap]="options.bottom">
+            <mat-nav-list class="navList">
+                <a routerLinkActive="active-link" mat-list-item matTooltip="{{'menu.client' | translate}}"  matTooltipPosition="after" class="nav_item" routerLink="/client">
+                    <img (error)="fixImage($event)" style="margin-right: 5px; width: 50px" [src]="clientImage" alt="">
+                    <span *ngIf="iconsShown">{{'menu.client' | translate}}</span>
+                </a>
+                <a routerLinkActive="active-link" mat-list-item matTooltip="{{'menu.product' | translate}}"  matTooltipPosition="after" class="nav_item"  routerLink="/product">
+                    <img (error)="fixImage($event)" style="margin-right: 5px; width: 50px" [src]="productImage" alt="">
+                    <span *ngIf="iconsShown">{{'menu.product' | translate}}</span>
+                </a>
+                <a routerLinkActive="active-link" mat-list-item matTooltip="{{'menu.transaction' | translate}}"  matTooltipPosition="after" class="nav_item"  routerLink="/transaction">
+                    <img (error)="fixImage($event)" style="margin-right: 5px; width: 50px" [src]="transactionImage" alt="">
+                    <span *ngIf="iconsShown">{{'menu.transaction' | translate}}</span>
+                </a>
+
+                <a routerLinkActive="active-link" mat-list-item matTooltip="{{'menu.calculator' | translate}}"  matTooltipPosition="after" class="nav_item"  routerLink="/calculator">
+                    <img (error)="fixImage($event)" style="margin-right: 5px; width: 50px" [src]="calculatorImage" alt="">
+                    <span *ngIf="iconsShown">{{'menu.calculator' | translate}}</span>
+                </a>
+                <a routerLinkActive="active-link" mat-list-item matTooltip="{{'menu.register' | translate}}"  matTooltipPosition="after" class="nav_item"  routerLink="/register">
+                    <img (error)="fixImage($event)" style="margin-right: 5px; width: 50px" [src]="registerImage" alt="">
+                    <span *ngIf="iconsShown">{{'menu.register' | translate}}</span>
+                </a>
+                <a routerLinkActive="active-link" mat-list-item matTooltip="{{'menu.employee' | translate}}"  matTooltipPosition="after" class="nav_item" *ngIf="user.role === 'admin'"  routerLink="/employee">
+                    <img (error)="fixImage($event)" style="margin-right: 5px; width: 50px" [src]="employeeImage" alt="">
+                    <span *ngIf="iconsShown">{{'menu.employee' | translate}}</span>
+                </a>
+
+                <a routerLinkActive="active-link" mat-list-item matTooltip="{{'menu.stats' | translate}}"  matTooltipPosition="after" class="nav_item" *ngIf="user.role === 'admin'"  routerLink="/stats">
+                    <!--                    <span class="glyphicon glyphicon-usd"></span>-->
+                    <img (error)="fixImage($event)" style="margin-right: 5px; width: 50px" [src]="resultImage" alt="">
+                    <span *ngIf="iconsShown">{{'menu.stats' | translate}}</span>
+                </a>
+                <a routerLinkActive="active-link" mat-list-item matTooltip="{{'menu.settings' | translate}}"  matTooltipPosition="after" *ngIf="user.role === 'admin'" class="nav_item" routerLink="/settings">
+                    <!--                    <span class="glyphicon glyphicon-cog"></span>-->
+                    <img (error)="fixImage($event)" style="margin-right: 5px; width: 50px" [src]="settingsImage" alt="">
+                    <span *ngIf="iconsShown">{{'menu.settings' | translate}}</span>
+                </a>
+                <a routerLinkActive="active-link" mat-list-item matTooltip="{{'menu.logs' | translate}}"  matTooltipPosition="after" class="nav_item"  routerLink="/logs">
+                    <!--                    <span class="glyphicon glyphicon-list-alt"></span>-->
+                    <img (error)="fixImage($event)" style="margin-right: 5px; width: 50px" [src]="errorImage" alt="">
+                    <span *ngIf="iconsShown">{{'menu.logs' | translate}}</span>
+                </a>
+                <br>
+            </mat-nav-list>
+            <p style="position: absolute; top: 0">v 1.0.0</p>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+<!--    <app-footer></app-footer>-->
+</div>

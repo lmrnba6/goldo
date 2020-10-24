@@ -1,0 +1,149 @@
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {MessagesService} from "../_services/messages.service";
+import {ActivatedRoute, Router} from '@angular/router';
+import {User} from "../model/user";
+import './user-form.component.scss';
+import {TranslateService} from "@ngx-translate/core";
+
+@Component({
+    selector: 'app-user-form',
+    templateUrl: './user-form.component.html',
+})
+export class UserFormComponent implements OnInit {
+
+    public user: User;
+    public block: boolean;
+    public isOnEdit: boolean;
+    public userForm: FormGroup;
+    public username: FormControl;
+    public password: FormControl;
+    public client: FormControl;
+    public instructor: FormControl;
+    public name: FormControl;
+    public role: FormControl;
+    public roles = ['admin', 'user']
+
+    public color: string = 'warn';
+    public mode: string = 'indeterminate';
+    public value: number = 100;
+
+    constructor(private fb: FormBuilder,
+                public messagesService: MessagesService,
+                private route: ActivatedRoute,
+                private router: Router,
+                private translate: TranslateService) {
+    }
+
+    public ngOnInit(): void {
+        this.getParams();
+    }
+
+    /**
+     * getParams
+     */
+    public getParams(): void {
+        this.route.params.subscribe(res => {
+            if (res.id) {
+                this.getData(res.id);
+                this.isOnEdit = true;
+                this.roles = ['admin', 'user'];
+            } else {
+                this.isOnEdit = false;
+                this.user = new User();
+                this.roles = ['user'];
+                this.initForm();
+            }
+        });
+    }
+
+    /**
+     * get data
+     *
+     * @param  {string} name user name
+     * @returns void
+     */
+    public getData(id: number): void {
+        User
+            .get(id)
+            .then((val: User) => {
+                this.user = val;
+                this.initForm();
+            });
+    }
+
+    public initForm(): void {
+        this.name = new FormControl(null, [Validators.required]);
+        this.username = new FormControl(null, [Validators.required]);
+        this.role = new FormControl(null, [Validators.required]);
+        this.password = new FormControl(null, [Validators.required]);
+        this.client = new FormControl(null);
+        this.instructor = new FormControl(null);
+        this.userForm = this.fb.group({
+            name: this.name,
+            username: this.username,
+            role: this.role,
+            password: this.password,
+            client: this.client,
+            instructor: this.instructor
+        });
+        if(this.isOnEdit) {
+            this.userForm.controls['client'].disable();
+            this.userForm.controls['instructor'].disable();
+        }
+    }
+
+
+    /**
+     * onSave
+     */
+    public onSave(): void {
+        this.onSaveOrUpdate();
+    }
+
+    public checkUserName(): void {
+        User.getByUserName(this.user.username).then((u: User) => {
+                if ((this.isOnEdit && u.id !== this.user.id) || (!this.isOnEdit && u.id)) {
+                    this.user.username = '';
+                    this.messagesService.notifyMessage(this.translate.instant('messages.username_exist'), '', 'error');
+                }
+            }
+        )
+    }
+
+    /**
+     * onSave
+     */
+    public onSaveOrUpdate(): void {
+        let userPromise: Promise<any>;
+        if (this.isOnEdit) {
+            userPromise = this.user.update();
+        } else {
+            userPromise = this.user.insert();
+        }
+        this.block = true;
+        userPromise.then(
+            () => {
+                this.block = false;
+                this.goBack();
+                this.messagesService.notifyMessage(this.translate.instant('messages.operation_success_message'), '', 'success');
+            },
+            () => {
+                this.messagesService.notifyMessage(this.translate.instant('messages.something_went_wrong_message'), '', 'error');
+                this.block = false;
+            });
+    }
+
+    goBack() {
+        this.router.navigate(['settings/users']);
+    }
+
+
+    /**
+     * onCancel
+     */
+    public onCancel(): void {
+        this.goBack();
+    }
+
+}

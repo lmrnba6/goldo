@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="assets/sass/indigo-pink.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/sass/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/sass/nova-light/theme.css"/>
+    <style>
+        #update {
+            padding: 1%;
+            background: #ffc107;
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: left;
+            padding-left: 10%;
+            width: 100%;
+            position: fixed;
+            display: none;
+        }
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: absolute; /* Stay in place */
+            z-index: 9999; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0); /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+    </style>
+</head>
+<body>
+<div id="update"></div>
+<div id="myModal" class="modal">
+    <div style="width: 50%" class="modal-content">
+        <img src="assets/images/loading2.gif"/>
+        <h1 style="color: black" id="updater"></h1>
+    </div>
+</div>
+<app>
+    <div class="spinner" style="margin: 15% 0 0 38%;">
+        <img style="width: 20%;" src="assets/images/rsi.png"/>
+    </div>
+</app>
+<script>
+
+    const html = function (text) {
+        return
+        `<div id="myModal" class="modal">
+            <div style="width: 50%" class="modal-content">
+                <img src="assets/images/loading2.gif"/>
+                <h1 style="color: black" id="updater">${text}</h1>
+            </div>
+        </div>`
+    }
+
+    // Listen for messages
+    document.getElementById('updater').innerHTML = "Chargement...";
+    const {ipcRenderer} = require('electron');
+    ipcRenderer.on('message', function (event, text) {
+        if (text === 'Mise à jour disponible') {
+            //modal.style.display = "block";
+            update.style.display = "block";
+        }
+        if (text === 'Mise à jour non disponible.' || text.indexOf('Erreur dans la mise à jour automatique:') === 1) {
+            modal.style.display = "none";
+            update.style.display = "none";
+        }
+        document.getElementById('updater').innerHTML = text;
+        document.getElementById('update').innerHTML = text;
+    });
+    var modal = document.getElementById("myModal");
+    var update = document.getElementById("update");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+</script>
+</body>
+</html>

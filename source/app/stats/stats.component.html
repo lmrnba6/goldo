@@ -1,0 +1,11 @@
+<h2>{{'menu.stats'| translate}}</h2>
+<app-loader *ngIf="block" [color]="color" [mode]="mode" [value]="value" [diameter]="48">
+</app-loader>
+<mat-card style="display: flex; align-items: center; justify-content: space-evenly">
+    <div>
+        <canvas id="total" width="400" height="400"></canvas>
+    </div>
+    <div>
+        <canvas id="product" width="400" height="400"></canvas>
+    </div>
+</mat-card>

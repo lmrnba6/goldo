@@ -1,0 +1,8 @@
+.vscode
+node_modules
+build
+dist
+*.db-journal
+package-lock.json
+electron-builder.env
+.idea

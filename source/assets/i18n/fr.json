@@ -1,0 +1,201 @@
+{
+  "nav": {
+    "home": "Acceuil",
+    "logout": "Déconnexion",
+    "title": "Titre",
+    "help": "Aide"
+  },
+  "login": {
+    "login": "Se connecter",
+    "username": "Nom d'utilisateur",
+    "password": "Mot de passe"
+  },
+  "abstractTable": {
+    "filter": "Recherche",
+    "printTitleMessage": "Veuillez choisir un titre qui sera en haut de la page",
+    "pageTitle": "Titre"
+  },
+  "menu": {
+    "stats": "Statistiques",
+    "calculator": "Calculatrice",
+    "transaction": "Transactions",
+    "logs": "Journaux",
+    "account": "Compte",
+    "settings": "Paramètre",
+    "client": "Clients",
+    "document": "Documents",
+    "product": "Produits",
+    "payment": "Paiements",
+    "result": "Statistiques",
+    "employee": "Employé",
+    "register": "Caisse"
+  },
+  "administration": {
+    "information" : "Information",
+    "db": "Base de données Web",
+    "title": "Administration",
+    "reception": "Acceuil",
+    "school": "École",
+    "transportation": "Transport",
+    "transport": "Programme",
+    "database": "Base de données",
+    "user_management": "Gestion des utilisateurs"
+  },
+  "client": {
+    "title": "Clients",
+    "placeholder": {
+      "name" : "Nom",
+      "email": "Courriel",
+      "address": "Adresse",
+      "phone": "Téléphone",
+      "phone2": "Deuxième téléphone",
+      "isAllowed": "Bloqué(e)",
+      "photo": "Photo",
+      "sold": "Solde"
+    }
+  },
+  "employee": {
+    "title": "Employé",
+    "placeholder": {
+      "name" : "Nom",
+      "email": "Courriel",
+      "address": "Adresse",
+      "phone": "Téléphone",
+      "phone2": "Deuxième téléphone",
+      "isAllowed": "Bloqué(e)",
+      "photo": "Photo",
+      "sold": "Solde"
+    }
+  },
+  "comment": {
+    "title": "Commentaires",
+    "placeholder": {
+      "name" : "Nom",
+      "phone": "Téléphone",
+      "comment": "Commentaire",
+      "date": "Date",
+      "client": "Ètudiant",
+      "instructor": "Enseignant"
+    }
+  },
+  "payment": {
+    "title": "Paiement",
+    "placeholder": {
+      "error": "Marquer ce paiement comme une erreur",
+      "amount" : "Montant",
+      "date": "Date",
+      "comment": "Commentaire",
+      "employee": "Employé",
+      "responsible": "Utilisateur",
+      "transaction": "Transaction"
+    }
+  },
+  "transaction": {
+    "title": "Transactions",
+    "noCharge": "Paiement pour autres raisons",
+    "createdBy": "Créé par",
+    "buy": "Vente",
+    "placeholder": {
+      "calculator": "Calculatrice",
+      "total": "Total",
+      "gram": "Grammes",
+      "dinar": "DA",
+      "product": "Produit",
+      "amountDue": "Montant dû",
+      "goldIn": "Or reçu",
+      "goldOut": "Or sortant",
+      "amountIn": "Montant reçu",
+      "amountOut": "Montant sorti",
+      "totalGold": "Solde d'Or",
+      "totalAmount": "Solde d'argent",
+      "date": "Date",
+      "from": "De",
+      "to": "A",
+      "comment": "Commentaire"
+    }
+  },
+  "user": {
+    "admin": "Administrateur",
+    "user": "Utilisateur",
+    "username": "Nom d'utilisateur",
+    "student": "Client",
+    "teacher": "Enseignant",
+    "parent": "Parent",
+    "name": "Nom",
+    "role": "Role",
+    "placeholder": {
+      "username": "Nom d'utilisateur",
+      "name" : "Nom",
+      "password": "Mot de passe",
+      "role": "Role"
+    }
+  },
+  "product": {
+    "title": "Produits",
+    "add": "Ajouter un produit",
+    "year": "Années",
+    "placeholder": {
+      "gram": "Grammes",
+      "dinar": "DA",
+      "dinarByGram": "DA / Grammes",
+      "quantity": "Quantité",
+      "price": "Prix",
+      "description": "Description",
+      "name": "Nom",
+      "category": "Catégorie"
+    }
+  },
+  "client-management": {
+    "information" : "Information",
+    "comment": "Commentaires",
+    "payment": "Paiement",
+    "transaction": "Transactions"
+  },
+  "employee-management": {
+    "information" : "Information",
+    "comment": "Commentaires",
+    "payment": "Paiement",
+    "transaction": "Transactions"
+  },
+  "register": {
+    "title": "Caisse",
+    "global": "Total",
+    "recipe": "Recettes",
+    "expense": "Dépenses",
+    "placeholder": {
+      "responsible": "Utilisateur",
+      "sold": "Solde",
+      "amount" : "Montant",
+      "date": "Date",
+      "from": "De",
+      "to": "A",
+      "comment": "Commentaire",
+      "error": "Marquer ce paiement comme une erreur"
+    },
+    "soldAll":"Solde total",
+    "sold":"Solde de la periode"
+  },
+  "messages": {
+    "unable_delete_relation": "Impossible de supprimer cette ligne car des informations y sont liées",
+    "error_field_required": "Ce champ est obligatoir",
+    "error_login": "Mauvais nom d'utilisateur ou mot de passe",
+    "field_required_error": "Vous devez rentrer une valeur",
+    "remove_row_warning_message": "Voulez-vous vraiment supprimer cette ligne?",
+    "warning_title": "Attention",
+    "operation_success_message": "Succès: Opération réussie",
+    "something_went_wrong_message": "Une erreur est survenue",
+    "no_result": "Aucun résultat",
+    "sync_database_warning_message": "Voulez-vous vraiment sync votre base de donneés avec le serveur?",
+    "change_local_database_warning_message": "Voulez-vous vraiment changer la source de votre base de donneés?",
+    "blocked": "Bloqué(e)",
+    "name_exist": "Ce nom est existant",
+    "username_exist": "Ce nom d'utilisateur est existant",
+    "add_to_register_message": "Souhaitez-vous ajouter ce montant à la caisse?"
+  },
+  "buttons": {
+    "save": "Sauvegarder",
+    "cancel": "Annuler",
+    "yes": "Oui",
+    "no": "Non"
+  }
+}

@@ -1,0 +1,7 @@
+<h2>{{'administration.title'| translate}} - {{'administration.reception'| translate}}</h2>
+<mat-divider></mat-divider>
+<mat-nav-list>
+  <mat-nav-list><a mat-list-item routerLink="/settings/users"><img (error)="fixImage($event)" style="margin-right: 5px; width: 40px; cursor: pointer;" [src]="userImage" alt="">{{'administration.user_management' | translate}}</a></mat-nav-list>
+</mat-nav-list>
+
+

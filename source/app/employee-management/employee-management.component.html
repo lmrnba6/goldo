@@ -1,0 +1,25 @@
+
+<app-loader *ngIf="block" [color]="color" [mode]="mode" [value]="value" [diameter]="48">
+</app-loader>
+<h1 *ngIf="employee?.blocked" class="block"> <span class="glyphicon glyphicon-ban-circle"></span>{{'messages.blocked' | translate}}</h1>
+<h2>{{'employee.title' | translate}} - {{employee?.name}} - <img *ngIf="!isEmployee" (error)="fixImage($event)" style="margin-right: 5px; width: 40px; cursor: pointer;" (click)="goBack()" [src]="backImage" alt=""></h2>
+<mat-tab-group [ngStyle]="{'opacity': employee?.blocked ? '0.4' : '1'}" *ngIf="employee" (selectedTabChange)="onTabChange()" [(selectedIndex)]="tabSelected">
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <img (error)="fixImage($event)" style="margin-right: 5px; width: 40px" [src]="infoImage" alt="">
+      {{'employee-management.information' | translate}}
+    </ng-template>
+    <div class="tab-content">
+      <app-employee-form [employee]="employee"></app-employee-form>
+    </div>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <img (error)="fixImage($event)" style="margin-right: 5px; width: 40px" [src]="chargeImage" alt="">
+      {{'employee-management.payment' | translate}}
+    </ng-template>
+    <div class="tab-content">
+      <app-payment [employee]="employee"></app-payment>
+    </div>
+  </mat-tab>
+</mat-tab-group>

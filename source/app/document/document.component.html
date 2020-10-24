@@ -1,0 +1,26 @@
+<h2>{{'document.receipt'| translate}}</h2>
+<mat-divider></mat-divider>
+<mat-card>
+    <app-loader *ngIf="block" [color]="color" [mode]="mode" [value]="value" [diameter]="48">
+    </app-loader>
+    <div class="container doc">
+        <mat-nav-list>
+            <mat-nav-list>
+                <mat-form-field  class="example-full-width" appearance="outline">
+                    <mat-label>{{'payment.placeholder.client_id' | translate}}</mat-label>
+                    <input matInput
+                           (keyup)="clientOnChange($event)" matInput [matAutocomplete]="auto"
+                           required>
+                    <span matSuffix class="glyphicon glyphicon-search"></span>
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this)"
+                                      (optionSelected)="clientOnSelect($event.option.value)">
+                        <mat-option *ngFor="let client of clientsFiltered" [value]="client">
+                            {{client?.name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </mat-nav-list>
+        </mat-nav-list>
+    </div>
+</mat-card>
+
