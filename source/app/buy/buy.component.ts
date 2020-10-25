@@ -162,6 +162,12 @@ export class BuyComponent implements OnInit, OnChanges {
                 cell: (row: any) => `${row.totalAmount} ${this.translate.instant('buy.placeholder.dinar')}`
             },
             {
+                columnDef: 'totalGold',
+                header: 'buy.placeholder.totalGold',
+                type: 'text',
+                cell: (row: any) => `${row.totalGold} ${this.translate.instant('buy.placeholder.gram')}`
+            },
+            {
                 columnDef: 'responsible',
                 header: 'user.user',
                 type: 'text',

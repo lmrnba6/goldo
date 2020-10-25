@@ -2,7 +2,10 @@
 <app-loader *ngIf="block" [color]="color" [mode]="mode" [value]="value" [diameter]="48">
 </app-loader>
 <mat-card style="display: flex; align-items: center; justify-content: space-evenly">
-    <h2 style="text-align: center">{{'supplier.title' | translate}}</h2>
+    <div style="display: flex; flex-direction: column; align-items: center">
+        <h2>{{'supplier.title' | translate}}</h2>
+        <h4 style="color: gray">{{'buy.placeholder.goldIn' | translate}}</h4>
+    </div>
     <div>
         <canvas id="totalBuy" width="350" height="350"></canvas>
     </div>
@@ -11,7 +14,10 @@
     </div>
 </mat-card>
 <mat-card style="display: flex; align-items: center; justify-content: space-evenly">
-    <h2 style="text-align: center">{{'client.title' | translate}}</h2>
+    <div style="display: flex; flex-direction: column; align-items: center">
+        <h2>{{'client.title' | translate}}</h2>
+        <h4 style="color: gray">{{'transaction.placeholder.goldOut' | translate}}</h4>
+    </div>
     <div>
         <canvas id="total" width="350" height="350"></canvas>
     </div>

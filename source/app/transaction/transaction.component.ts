@@ -162,6 +162,12 @@ export class TransactionComponent implements OnInit, OnChanges {
                 cell: (row: any) => `${row.totalAmount} ${this.translate.instant('transaction.placeholder.dinar')}`
             },
             {
+                columnDef: 'totalGold',
+                header: 'transaction.placeholder.totalGold',
+                type: 'text',
+                cell: (row: any) => `${row.totalGold} ${this.translate.instant('transaction.placeholder.gram')}`
+            },
+            {
                 columnDef: 'responsible',
                 header: 'user.user',
                 type: 'text',

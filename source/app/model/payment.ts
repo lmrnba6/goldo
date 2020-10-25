@@ -37,7 +37,7 @@ export class Payment {
                     FROM "payment" as p
                             INNER JOIN "employee" AS e ON p.employee = e.id 
                             INNER JOIN "user" AS u ON p.responsible = u.id 
-                    WHERE id = ${id}`;
+                    WHERE p.id = ${id}`;
 
         return TheDb.selectOne(sql)
             .then((row) => {

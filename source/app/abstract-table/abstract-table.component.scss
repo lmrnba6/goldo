@@ -22,6 +22,12 @@
   .a15 {
     max-width: 15%;
   }
+  .border {
+    border: 1px solid;
+    margin: 0 5px;
+    text-align: center;
+    border-right: 5px;
+  }
   display: flex;
   flex-direction: column;
   min-width: 300px;
