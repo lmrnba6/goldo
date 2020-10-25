@@ -6,6 +6,8 @@ import './comment-form.component.scss';
 import {TranslateService} from "@ngx-translate/core";
 import {Comment} from "../model/comment";
 import {Client} from "../model/client";
+import {Supplier} from "../model/supplier";
+import {Employee} from "../model/employee";
 
 @Component({
     selector: 'app-comment-form',
@@ -20,6 +22,8 @@ export class CommentFormComponent implements OnInit, OnChanges {
     public comments: FormControl;
     public date: FormControl;
     public client: Client;
+    public supplier: Supplier;
+    public employee: Employee;
 
     public color: string = 'warn';
     public mode: string = 'indeterminate';
@@ -57,7 +61,15 @@ export class CommentFormComponent implements OnInit, OnChanges {
                 this.comment = new Comment();
                 this.comment.date = new Date();
             }
-            this.getClient(res.client);
+            if(res.client) {
+                this.getClient(res.client);
+            }
+            if(res.supplier) {
+                this.getSupplier(res.supplier);
+            }
+            if(res.employee) {
+                this.getEmployee(res.employee);
+            }
         });
     }
 
@@ -66,6 +78,22 @@ export class CommentFormComponent implements OnInit, OnChanges {
             .get(id)
             .then(val => {
                 this.client = val;
+            });
+    }
+
+    public getSupplier(id: number): void {
+        Supplier
+            .get(id)
+            .then(val => {
+                this.supplier = val;
+            });
+    }
+
+    public getEmployee(id: number): void {
+        Employee
+            .get(id)
+            .then(val => {
+                this.employee = val;
             });
     }
 
@@ -108,7 +136,15 @@ export class CommentFormComponent implements OnInit, OnChanges {
      */
     public onSaveOrUpdate(): void {
         this.comment.date = (this.comment.date as Date).getTime();
-        this.comment.client = this.client.id;
+        if(this.client) {
+            (this.comment.client as any) = this.client.id;
+        }
+        if(this.supplier) {
+            (this.comment.supplier as any) = this.supplier.id;
+        }
+        if(this.employee) {
+            (this.comment.employee as any) = this.employee.id;
+        }
         let clientPromise: Promise<any>;
         if (this.isOnEdit) {
             clientPromise = this.comment.update();
@@ -131,7 +167,12 @@ export class CommentFormComponent implements OnInit, OnChanges {
     }
 
     goBack() {
-        this.router.navigate(['client-management/'+ this.client.id + '/' +  8]);
+        this.router.navigate([(this.client ? 'client-management/' :
+            this.supplier ? 'supplier-management/' :
+                this.employee ? 'employee-management/' : '') +
+        (this.client ? this.client.id :
+            this.supplier ? this.supplier.id :
+                this.employee ? this.employee.id : 0) + '/' +  2]);
     }
 
     /**

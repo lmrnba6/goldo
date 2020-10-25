@@ -18,11 +18,13 @@
   "menu": {
     "stats": "الإحصائيات",
     "calculator": "آلة حاسبة",
-    "transaction": "الصفقات",
+    "transaction": "البيع",
+    "buy": "الشراء",
     "logs": "الاخطاء",
     "account": "الحساب",
     "settings": "الاعدادت",
     "client": "الزبائن",
+    "supplier": "الموردين",
     "document": "المستندات",
     "product": "المنتجات",
     "payment": "التسديدات",
@@ -43,6 +45,19 @@
   },
   "client": {
     "title": "الزبون",
+    "placeholder": {
+      "name" : "الاسم",
+      "email": "البرید الالكتروني",
+      "address": "العنوان",
+      "phone": "الهاتف",
+      "phone2": "الهاتف الثاني",
+      "isAllowed": "مجمد",
+      "photo": "صورة",
+      "sold": "مبلغ"
+    }
+  },
+  "supplier": {
+    "title": "الموردين",
     "placeholder": {
       "name" : "الاسم",
       "email": "البرید الالكتروني",
@@ -90,7 +105,7 @@
     }
   },
   "transaction": {
-    "title": "الصفقات",
+    "title": "البــيــع",
     "noCharge": "الدفع لأسباب أخرى",
     "createdBy": "المستخدم",
     "buy": "بــيــع",
@@ -114,6 +129,32 @@
       "comment": "الملاحظات"
     }
   },
+  "buy": {
+    "title": "الشراء",
+    "noCharge": "الدفع لأسباب أخرى",
+    "createdBy": "المستخدم",
+    "buy": "شراء",
+    "placeholder": {
+      "calculator": "آلة حاسبة",
+      "total": "الإجمالي",
+      "gram": "جرامات",
+      "dinar": "دينار",
+      "product": "المنتوج",
+      "amountDue": "المبلغ المستحق",
+      "goldIn": "الذهب المستلم",
+      "goldOut": "الذهب المدفوع",
+      "amountIn": "المبلغ المستلم",
+      "amountOut": "المبلغ المدفوع",
+      "totalGold": "رصيد الذهب",
+      "totalAmount": "رصيد المال",
+      "client": "الزبون",
+      "date": "التاريخ",
+      "from": "من",
+      "to": "إلى",
+      "comment": "الملاحظات",
+      "supplier": "المورد"
+    }
+  },
   "user": {
     "admin": "المسؤول",
     "user": "المستخدم",
@@ -133,7 +174,8 @@
   "product": {
     "title": "المنتجات",
     "add": "إضافة منتج جديد",
-    "year": "السنوات",
+    "year": "السنوات / جرامات",
+    "product": "المنتجات / جرامات",
     "placeholder": {
       "gram": "جرامات",
       "dinar": "دينار",
@@ -146,6 +188,12 @@
     }
   },
   "client-management": {
+    "information" : "معلومات",
+    "comment": "ملاحظات",
+    "payment": "الدفع",
+    "transaction": "الصفقات"
+  },
+  "supplier-management": {
     "information" : "معلومات",
     "comment": "ملاحظات",
     "payment": "الدفع",
@@ -174,6 +222,13 @@
     },
     "soldAll":"رصيد الحساب اجمالي",
     "sold":"رصيد حساب الفترة"
+  },
+  "receipt": {
+    "title": "طباعة",
+    "information": "معلومات",
+    "center": "الشركة",
+    "header": "العنوان",
+    "receipt": "فاتورة"
   },
   "messages": {
     "unable_delete_relation": "لا يمكن حذف هذا السطر لأنه يحتوي على معلومات مرتبطة به",

@@ -18,11 +18,13 @@
   "menu": {
     "stats": "Statistiques",
     "calculator": "Calculatrice",
-    "transaction": "Transactions",
+    "transaction": "Ventes",
+    "buy": "Achats",
     "logs": "Journaux",
     "account": "Compte",
     "settings": "Paramètre",
     "client": "Clients",
+    "supplier": "Fournissers",
     "document": "Documents",
     "product": "Produits",
     "payment": "Paiements",
@@ -43,6 +45,19 @@
   },
   "client": {
     "title": "Clients",
+    "placeholder": {
+      "name" : "Nom",
+      "email": "Courriel",
+      "address": "Adresse",
+      "phone": "Téléphone",
+      "phone2": "Deuxième téléphone",
+      "isAllowed": "Bloqué(e)",
+      "photo": "Photo",
+      "sold": "Solde"
+    }
+  },
+  "supplier": {
+    "title": "Fournisseurs",
     "placeholder": {
       "name" : "Nom",
       "email": "Courriel",
@@ -91,10 +106,10 @@
     }
   },
   "transaction": {
-    "title": "Transactions",
+    "title": "Ventes",
     "noCharge": "Paiement pour autres raisons",
     "createdBy": "Créé par",
-    "buy": "Vente",
+    "buy": "Ventes",
     "placeholder": {
       "calculator": "Calculatrice",
       "total": "Total",
@@ -113,6 +128,32 @@
       "from": "De",
       "to": "A",
       "comment": "Commentaire"
+    }
+  },
+  "buy": {
+    "title": "Achats",
+    "noCharge": "Paiement pour autres raisons",
+    "createdBy": "Créé par",
+    "buy": "Achats",
+    "placeholder": {
+      "calculator": "Calculatrice",
+      "total": "Total",
+      "gram": "Grammes",
+      "dinar": "DA",
+      "product": "Produit",
+      "amountDue": "Montant dû",
+      "goldIn": "Or reçu",
+      "goldOut": "Or sortant",
+      "amountIn": "Montant reçu",
+      "amountOut": "Montant sorti",
+      "totalGold": "Solde d'Or",
+      "totalAmount": "Solde d'argent",
+      "client": "Clinet",
+      "date": "Date",
+      "from": "De",
+      "to": "A",
+      "comment": "Commentaire",
+      "supplier": "Fournisser"
     }
   },
   "user": {
@@ -134,7 +175,8 @@
   "product": {
     "title": "Produits",
     "add": "Ajouter un produit",
-    "year": "Années",
+    "year": "Années / Grammes",
+    "product": "Produits / Grammes",
     "placeholder": {
       "gram": "Grammes",
       "dinar": "DA",
@@ -147,6 +189,12 @@
     }
   },
   "client-management": {
+    "information" : "Information",
+    "comment": "Commentaires",
+    "payment": "Paiement",
+    "transaction": "Transactions"
+  },
+  "supplier-management": {
     "information" : "Information",
     "comment": "Commentaires",
     "payment": "Paiement",
@@ -175,6 +223,13 @@
     },
     "soldAll":"Solde total",
     "sold":"Solde de la periode"
+  },
+  "receipt": {
+    "title": "Impression",
+    "information": "Information",
+    "center": "Company",
+    "header": "Titre",
+    "receipt": "Reçu"
   },
   "messages": {
     "unable_delete_relation": "Impossible de supprimer cette ligne car des informations y sont liées",

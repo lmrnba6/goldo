@@ -21,6 +21,7 @@ export class EmployeeManagementComponent implements OnInit {
     public infoImage = `${this.getPath()}dist/assets/images/infoImage.png`;
     public chargeImage = `${this.getPath()}dist/assets/images/chargeImage.png`;
     public backImage = `${this.getPath()}dist/assets/images/backImage.png`;
+    public commentImage = `${this.getPath()}dist/assets/images/commentImage.png`;
 
     constructor(public messagesService: MessagesService,
                 private route: ActivatedRoute,

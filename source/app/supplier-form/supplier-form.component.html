@@ -1,0 +1,59 @@
+<h2 *ngIf="!isOnEdit">{{'supplier.title'| translate}} - {{supplier?.name}} -</h2>
+<mat-divider></mat-divider>
+<mat-card id="contentToConvert">
+    <app-loader *ngIf="block" [color]="color" [mode]="mode" [value]="value" [diameter]="48">
+    </app-loader>
+    <form [formGroup]="supplierForm">
+        <div class="container">
+            <button [disabled]="supplierForm.invalid" class="pull-right save" (click)="onSave()" type="button" mat-button>
+                <span class="glyphicon glyphicon-floppy-disk"></span>
+            </button>
+            <button class="pull-right cancel" type="button" (click)="onCancel()" mat-button>
+                <span class="glyphicon glyphicon-arrow-left"></span>
+            </button>
+            <div  class="pull-right" style="clear: both; margin-top: 10px">
+                <mat-card style="width:200px;height:200px;">
+                    <img (error)="fixImage($event)" style="width:170px;height:170px;" [src]="(photo || noImage) | safe" />
+                </mat-card>
+                <button tabindex="-1" style="background: #8af9ff; width: 100%; border-radius: 20px; margin-top: 5px;"
+                        type="button" (click)="openFile()" mat-button>
+                    <span class="glyphicon glyphicon-picture"></span>
+                </button>
+            </div>
+            <br>
+            <mat-form-field appearance="outline">
+                <mat-label>{{'supplier.placeholder.name' | translate}}</mat-label>
+                <input id="supplierName" name="name" formControlName="name" [(ngModel)]="supplier.name" matInput (blur)="handleName($event.target['value'])"
+                       required autofocus>
+                <span class="glyphicon glyphicon-user" matPrefix></span>
+                <mat-error *ngIf="name.invalid">{{'messages.field_required_error' | translate}}</mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="outline">
+                <mat-label>{{'supplier.placeholder.address' | translate}}</mat-label>
+                <input name="address" formControlName="address" [(ngModel)]="supplier.address" matInput
+                       >
+                <span class="glyphicon glyphicon-briefcase" matPrefix></span>
+                <mat-error *ngIf="address.invalid">{{'messages.field_required_error' | translate}}</mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="outline">
+                <mat-label>{{'supplier.placeholder.phone' | translate}}</mat-label>
+                <input name="phone" type="number" formControlName="phone" [(ngModel)]="supplier.phone" matInput
+                       required>
+                <span class="glyphicon glyphicon-earphone" matPrefix></span>
+                <mat-error *ngIf="phone.invalid">{{'messages.field_required_error' | translate}}</mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="outline">
+                <mat-label>{{'supplier.placeholder.phone2' | translate}}</mat-label>
+                <input name="phone2" type="number" formControlName="phone2" [(ngModel)]="supplier.phone2" matInput
+                       >
+                <span class="glyphicon glyphicon-earphone" matPrefix></span>
+                <mat-error *ngIf="phone2.invalid">{{'messages.field_required_error' | translate}}</mat-error>
+            </mat-form-field>
+            <br>
+        </div>
+    </form>
+    <br>
+</mat-card>

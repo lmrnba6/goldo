@@ -1,4 +1,5 @@
 <h2>{{'payment.title'| translate}} - {{payment?.amount}} -</h2>
+<h3 *ngIf="isOnEdit" style="position: absolute; top: 20PX; right: 20px">{{'buy.createdBy' | translate}}: {{payment?.name}} ({{payment?.username}})</h3>
 <mat-divider></mat-divider>
 <mat-card>
     <app-loader *ngIf="block" [color]="color" [mode]="mode" [value]="value" [diameter]="48">

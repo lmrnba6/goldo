@@ -62,6 +62,22 @@ export class Product {
             });
     }
 
+    public static getAllByBuy(id: number): Promise<Product[]> {
+        const sql = `SELECT p.id, p.name, t.quantity, p.description, p.price, p.category,p.photo
+         FROM "product" AS p
+         INNER JOIN "buyProduct" AS t on t.product = p.id
+         WHERE t.buy = ${id}`;
+
+        return TheDb.selectAll(sql)
+            .then((rows) => {
+                const users: Product[] = [];
+                for (const row of rows) {
+                    users.push(this.toProduct(row));
+                }
+                return users;
+            });
+    }
+
 
     public static getAllPaged(pageIndex: number, pageSize: number, sort: string, order: string, filter: string): Promise<Product[]> {
         const sql = `SELECT * FROM "product" WHERE name ILIKE '%${filter}%'

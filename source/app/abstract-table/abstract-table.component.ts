@@ -35,6 +35,7 @@ export class AbstractTableComponent
     @Output() sortChange: EventEmitter<any> = new EventEmitter<any>();
     @Output() addRow: EventEmitter<any> = new EventEmitter<any>();
     @Output() editRow: EventEmitter<any> = new EventEmitter<any>();
+    @Output() printRow: EventEmitter<any> = new EventEmitter<any>();
     @Output() filter: EventEmitter<any> = new EventEmitter<any>();
     @Output() deleteAll: EventEmitter<any> = new EventEmitter<any>();
     public printImage;
@@ -300,6 +301,10 @@ export class AbstractTableComponent
      */
     public onEditRow(data: any): void {
         this.editRow.emit(data);
+    }
+
+    public onPrintRow(data: any): void {
+        this.printRow.emit(data);
     }
 
     /**

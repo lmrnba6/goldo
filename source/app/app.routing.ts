@@ -27,6 +27,12 @@ import {PaymentFormComponent} from "./payment-form/payment-form.component";
 import {StatsComponent} from "./stats/stats.component";
 import {RegisterComponent} from "./register/register.component";
 import {RegisterFormComponent} from "./register-form/register-form.component";
+import {SupplierComponent} from "./supplier/supplier.component";
+import {SupplierFormComponent} from "./supplier-form/supplier-form.component";
+import {SupplierManagementComponent} from "./supplier-management/supplier-management.component";
+import {BuyComponent} from "./buy/buy.component";
+import {BuyFormComponent} from "./buy-form/buy-form.component";
+import {ReceiptComponent} from "./receipt/receipt.component";
 
 const appRoutes: Routes = [
     {
@@ -37,6 +43,14 @@ const appRoutes: Routes = [
             {
                 path: '',
                 component: HomeComponent
+            },
+            {
+                path: 'receipt/:name/:id',
+                component: ReceiptComponent
+            },
+            {
+                path: 'receipt/:name/:id',
+                component: ReceiptComponent
             },
             {
                 path: 'payment',
@@ -87,11 +101,39 @@ const appRoutes: Routes = [
                 component: ClientFormComponent
             },
             {
-                path: 'comment/form/:client',
+                path: 'supplier',
+                component: SupplierComponent
+            },
+            {
+                path: 'supplier/form',
+                component: SupplierFormComponent
+            },
+            {
+                path: 'supplier/form/:id',
+                component: SupplierFormComponent
+            },
+            {
+                path: 'comment/form-client/:client',
                 component: CommentFormComponent
             },
             {
-                path: 'comment/form/:client/:id',
+                path: 'comment/form-client/:client/:id',
+                component: CommentFormComponent
+            },
+            {
+                path: 'comment/form-supplier/:supplier',
+                component: CommentFormComponent
+            },
+            {
+                path: 'comment/form-supplier/:supplier/:id',
+                component: CommentFormComponent
+            },
+            {
+                path: 'comment/form-employee/:employee',
+                component: CommentFormComponent
+            },
+            {
+                path: 'comment/form-employee/:employee/:id',
                 component: CommentFormComponent
             },
             {
@@ -127,6 +169,26 @@ const appRoutes: Routes = [
                 component: TransactionFormComponent
             },
             {
+                path: 'buy',
+                component: BuyComponent
+            },
+            {
+                path: 'buy/form',
+                component: BuyFormComponent
+            },
+            {
+                path: 'buy/form/:id',
+                component: BuyFormComponent
+            },
+            {
+                path: 'buy/form-supplier/:supplier',
+                component: BuyFormComponent
+            },
+            {
+                path: 'buy/form-supplier/:supplier/:buy',
+                component: BuyFormComponent
+            },
+            {
                 path: 'product',
                 component: ProductComponent
             },
@@ -153,6 +215,22 @@ const appRoutes: Routes = [
             {
                 path: 'client-management-client/:client/:tab',
                 component: ClientManagementComponent
+            },
+            {
+                path: 'supplier-management/:id',
+                component: SupplierManagementComponent
+            },
+            {
+                path: 'supplier-management/:id/:tab',
+                component: SupplierManagementComponent
+            },
+            {
+                path: 'supplier-management-client/:client',
+                component: SupplierManagementComponent
+            },
+            {
+                path: 'supplier-management-client/:client/:tab',
+                component: SupplierManagementComponent
             },
             {
                 path: 'employee-management/:id',

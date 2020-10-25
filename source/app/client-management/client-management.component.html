@@ -6,7 +6,7 @@
 <mat-tab-group [ngStyle]="{'opacity': client?.blocked ? '0.4' : '1'}" *ngIf="client" (selectedTabChange)="onTabChange()" [(selectedIndex)]="tabSelected">
   <mat-tab>
     <ng-template mat-tab-label>
-      <img (error)="fixImage($event)" style="margin-right: 5px; width: 40px" [src]="enrollmentImage" alt=""> {{'client-management.transaction' | translate}}
+      <img (error)="fixImage($event)" style="margin-right: 5px; width: 40px" [src]="transactionImage" alt=""> {{'client-management.transaction' | translate}}
     </ng-template>
     <div class="tab-content">
       <app-transaction [client]="client"></app-transaction>

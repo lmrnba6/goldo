@@ -1,0 +1,32 @@
+
+<app-loader *ngIf="block" [color]="color" [mode]="mode" [value]="value" [diameter]="48">
+</app-loader>
+<h1 *ngIf="supplier?.blocked" class="block"> <span class="glyphicon glyphicon-ban-circle"></span>{{'messages.blocked' | translate}}</h1>
+<h2>{{'supplier.title' | translate}} - {{supplier?.name}} - <img *ngIf="!isSupplier" (error)="fixImage($event)" style="margin-right: 5px; width: 40px; cursor: pointer;" (click)="goBack()" [src]="backImage" alt=""></h2>
+<mat-tab-group [ngStyle]="{'opacity': supplier?.blocked ? '0.4' : '1'}" *ngIf="supplier" (selectedTabChange)="onTabChange()" [(selectedIndex)]="tabSelected">
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <img (error)="fixImage($event)" style="margin-right: 5px; width: 40px" [src]="transactionImage" alt=""> {{'supplier-management.transaction' | translate}}
+    </ng-template>
+    <div class="tab-content">
+     <app-buy [supplier]="supplier"></app-buy>
+    </div>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <img (error)="fixImage($event)" style="margin-right: 5px; width: 40px" [src]="infoImage" alt="">
+      {{'supplier-management.information' | translate}}
+    </ng-template>
+    <div class="tab-content">
+      <app-supplier-form [supplier]="supplier"></app-supplier-form>
+    </div>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <img (error)="fixImage($event)" style="margin-right: 5px; width: 40px" [src]="commentImage" alt=""> {{'supplier-management.comment' | translate}}
+    </ng-template>
+    <div class="tab-content">
+      <app-comment [supplier]="supplier"></app-comment>
+    </div>
+  </mat-tab>
+</mat-tab-group>

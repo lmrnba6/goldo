@@ -1,5 +1,5 @@
 <h2>{{'transaction.title'| translate}}</h2>
-<h3 *ngIf="isOnEdit" style="position: absolute; top: 0; right: 0; color: blue">{{'transaction.createdBy' | translate}}: {{transaction?.name}} ({{transaction?.username}})</h3>
+<h3 *ngIf="isOnEdit" style="position: absolute; top: 20px; right: 20px;">{{'transaction.createdBy' | translate}}: {{transaction?.name}} ({{transaction?.username}})</h3>
 <mat-divider></mat-divider>
 <mat-card>
     <app-loader *ngIf="block" [color]="color" [mode]="mode" [value]="value" [diameter]="48">
@@ -123,12 +123,13 @@
                     <mat-expansion-panel [expanded]="false">
                         <mat-expansion-panel-header  style="background: #e9ecef">
                             <mat-panel-title style="display: flex; align-items: center; font-size: 2rem">
-                                <img (error)="fixImage($event)" width="45" height="45" [src]="buyImage" alt=""> {{'transaction.buy' | translate}}
+                                <img (error)="fixImage($event)" width="45" height="45" [src]="transactionOutImage" alt=""> {{'transaction.buy' | translate}}
                             </mat-panel-title>
                             <mat-panel-description style="color: #007bff; font-weight: bold; align-items: center; font-size: 2rem; font-family: monospace">
-                                {{amountDueCalculated || 0}} {{'transaction.placeholder.dinar' | translate}} |
-                                {{goldDueCalculated || 0}} {{'transaction.placeholder.gram' | translate}}
-                                <!--                                <img (error)="fixImage($event)" style="width: 30px; height: 30px; margin-left: 20px" [src]="copyImage" (click)="copySuccess()" ngxClipboard [cbContent]="transaction.amountDue" alt="">-->
+                                <div style="display: flex; align-items: center"><img style="margin-right: 10px" (error)="fixImage($event)" width="30" height="30" [src]="amountImage" alt="">
+                                    <p style="margin: 0">{{amountDueCalculated || 0}} {{'transaction.placeholder.dinar' | translate}}</p></div> |
+                                <div style="display: flex; align-items: center"><img style="margin-right: 10px" (error)="fixImage($event)" width="30" height="30" [src]="goldImage" alt="">
+                                    <p style="margin: 0">{{goldDueCalculated || 0}} {{'transaction.placeholder.gram' | translate}}</p></div>
                             </mat-panel-description>
                         </mat-expansion-panel-header>
                         <div style="margin-top: 20px; display: flex; align-items: center;">

@@ -8,43 +8,63 @@
                 <img src="{{logo}}"/>
             </div>
         </div>
-        <div class="row text-center">
-            <div class="col">
-                <div class="counter">
-                    <!--                    <span class="glyphicon glyphicon-education fa-2x"></span>-->
-                    <img style="margin: 0; width: 50px" [src]="clientImage" alt="">
-                    <h2 class="timer count-title count-number" data-to="100" data-speed="1500"></h2>
-                    <p class="count">{{clients}}</p>
-<!--                    <p class="count-text">{{'menu.client' | translate}}</p>-->
-                </div>
-            </div>
+<!--        <div class="row text-center">-->
+<!--            <div class="col">-->
+<!--                <div class="counter">-->
+<!--                    &lt;!&ndash;                    <span class="glyphicon glyphicon-education fa-2x"></span>&ndash;&gt;-->
+<!--                    <img style="margin: 0; width: 50px" [src]="clientImage" alt="">-->
+<!--                    <h2 class="timer count-title count-number" data-to="100" data-speed="1500"></h2>-->
+<!--                    <p class="count">{{clients}}</p>-->
+<!--&lt;!&ndash;                    <p class="count-text">{{'menu.client' | translate}}</p>&ndash;&gt;-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="col">-->
+<!--                <div class="counter">-->
+<!--                    &lt;!&ndash;                    <span class="glyphicon glyphicon-book fa-2x"></span>&ndash;&gt;-->
+<!--                    <img style="margin: 0; width: 50px" [src]="productImage" alt="">-->
+<!--                    <h2 class="timer count-title count-number" data-to="157" data-speed="1500"></h2>-->
+<!--                    <p class="count">{{trainings}}</p>-->
+<!--&lt;!&ndash;                    <p class="count-text">{{'menu.product' | translate}}</p>&ndash;&gt;-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+        <h2 style="text-align: center">{{'supplier.title' | translate}}</h2>
+        <mat-card class="row text-center" style="display: flex">
             <div class="col">
                 <div class="counter">
                     <!--                    <span class="glyphicon glyphicon-book fa-2x"></span>-->
-                    <img style="margin: 0; width: 50px" [src]="productImage" alt="">
+                    <img style="margin: 0; width: 50px" [src]="amountImage" alt="">
                     <h2 class="timer count-title count-number" data-to="157" data-speed="1500"></h2>
-                    <p class="count">{{trainings}}</p>
-<!--                    <p class="count-text">{{'menu.product' | translate}}</p>-->
+                    <div style="display: flex; margin-top: 10px; align-items: center; justify-content: center">
+                        <img style="height: 30px !important; width: 30px !important;" (error)="fixImage($event)" [src]="supplierImage" alt="">
+                        <span style="color: #28a745; font-size: 20px" *ngIf="totalAmountBuy < 0" class="glyphicon glyphicon-arrow-right"></span>
+                        <span style="color: #007bff; font-size: 20px" *ngIf="totalAmountBuy === 0" class="glyphicon glyphicon-ok"></span>
+                        <span style="color: red; font-size: 20px" *ngIf="totalAmountBuy > 0" class="glyphicon glyphicon-arrow-left"></span>
+                        <img style="height: 30px !important; width: 30px !important;" (error)="fixImage($event)" [src]="homeImage" alt="">
+                    </div>
+                    <p [ngStyle]="{color: totalAmountBuy < 0 ? '#28a745' : 'red'}" class="count">{{toAbs(totalAmountBuy)}} <span style="font-weight: normal">{{'transaction.placeholder.dinar' | translate}}</span></p>
+                    <!--                    <p class="count-text">{{'menu.product' | translate}}</p>-->
                 </div>
             </div>
-        </div>
-        <div class="row text-center" style="margin-top: 20px">
             <div class="col">
                 <div class="counter">
                     <!--                    <span class="glyphicon glyphicon-education fa-2x"></span>-->
                     <img style="margin: 0; width: 50px" [src]="goldImage" alt="">
                     <h2 class="timer count-title count-number" data-to="100" data-speed="1500"></h2>
                     <div style="display: flex; margin-top: 10px; align-items: center; justify-content: center">
+                        <img style="height: 30px !important; width: 30px !important;" (error)="fixImage($event)" [src]="supplierImage" alt="">
+                        <span style="color: #28a745; font-size: 20px" *ngIf="totalGoldBuy < 0" class="glyphicon glyphicon-arrow-right"></span>
+                        <span style="color: #007bff; font-size: 20px" *ngIf="totalGoldBuy === 0" class="glyphicon glyphicon-ok"></span>
+                        <span style="color: red; font-size: 20px" *ngIf="totalGoldBuy > 0" class="glyphicon glyphicon-arrow-left"></span>
                         <img style="height: 30px !important; width: 30px !important;" (error)="fixImage($event)" [src]="homeImage" alt="">
-                        <span style="color: #28a745; font-size: 20px" *ngIf="totalGold < 0" class="glyphicon glyphicon-arrow-right"></span>
-                        <span style="color: #007bff; font-size: 20px" *ngIf="totalGold === 0" class="glyphicon glyphicon-ok"></span>
-                        <span style="color: red; font-size: 20px" *ngIf="totalGold > 0" class="glyphicon glyphicon-arrow-left"></span>
-                        <img style="height: 30px !important; width: 30px !important;" (error)="fixImage($event)" [src]="clientImage" alt="">
                     </div>
-                    <p [ngStyle]="{color: totalGold < 0 ? '#28a745' : 'red'}" class="count">{{toAbs(totalGold)}} <span style="font-weight: normal">{{'transaction.placeholder.gram' | translate}}</span></p>
-<!--                    <p class="count-text">{{'menu.client' | translate}}</p>-->
+                    <p [ngStyle]="{color: totalGoldBuy < 0 ? '#28a745' : 'red'}" class="count">{{toAbs(totalGoldBuy)}} <span style="font-weight: normal">{{'transaction.placeholder.gram' | translate}}</span></p>
+                    <!--                    <p class="count-text">{{'menu.client' | translate}}</p>-->
                 </div>
             </div>
+        </mat-card>
+        <h2 style="text-align: center">{{'client.title' | translate}}</h2>
+        <mat-card class="row text-center" style="display: flex">
             <div class="col">
                 <div class="counter">
                     <!--                    <span class="glyphicon glyphicon-book fa-2x"></span>-->
@@ -58,9 +78,25 @@
                         <img style="height: 30px !important; width: 30px !important;" (error)="fixImage($event)" [src]="clientImage" alt="">
                     </div>
                     <p [ngStyle]="{color: totalAmount < 0 ? '#28a745' : 'red'}" class="count">{{toAbs(totalAmount)}} <span style="font-weight: normal">{{'transaction.placeholder.dinar' | translate}}</span></p>
-<!--                    <p class="count-text">{{'menu.product' | translate}}</p>-->
+                    <!--                    <p class="count-text">{{'menu.product' | translate}}</p>-->
                 </div>
             </div>
-        </div>
+            <div class="col">
+                <div class="counter">
+                    <!--                    <span class="glyphicon glyphicon-education fa-2x"></span>-->
+                    <img style="margin: 0; width: 50px" [src]="goldImage" alt="">
+                    <h2 class="timer count-title count-number" data-to="100" data-speed="1500"></h2>
+                    <div style="display: flex; margin-top: 10px; align-items: center; justify-content: center">
+                        <img style="height: 30px !important; width: 30px !important;" (error)="fixImage($event)" [src]="homeImage" alt="">
+                        <span style="color: #28a745; font-size: 20px" *ngIf="totalGold < 0" class="glyphicon glyphicon-arrow-right"></span>
+                        <span style="color: #007bff; font-size: 20px" *ngIf="totalGold === 0" class="glyphicon glyphicon-ok"></span>
+                        <span style="color: red; font-size: 20px" *ngIf="totalGold > 0" class="glyphicon glyphicon-arrow-left"></span>
+                        <img style="height: 30px !important; width: 30px !important;" (error)="fixImage($event)" [src]="clientImage" alt="">
+                    </div>
+                    <p [ngStyle]="{color: totalGold < 0 ? '#28a745' : 'red'}" class="count">{{toAbs(totalGold)}} <span style="font-weight: normal">{{'transaction.placeholder.gram' | translate}}</span></p>
+                    <!--                    <p class="count-text">{{'menu.client' | translate}}</p>-->
+                </div>
+            </div>
+        </mat-card>
     </div>
 </div>

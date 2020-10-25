@@ -133,11 +133,12 @@ export class PaymentComponent implements OnInit, OnChanges {
             },
             {
                 columnDef: 'settings',
-                class: 'a10',
+                class: 'a20',
                 header: '',
                 type: 'settings',
                 delete: true,
-                editRow: true
+                editRow: true,
+                print: true
             }
         ];
     }
@@ -191,6 +192,10 @@ export class PaymentComponent implements OnInit, OnChanges {
         this.payment = event;
         this.router.navigate(['payment/form/' + this.employee.id + '/' + event.id]);
 
+    }
+
+    public onPrintRow(event: Payment) {
+        this.router.navigate(['receipt/payment/' + event.id])
     }
 
     onFilter(filter: string) {

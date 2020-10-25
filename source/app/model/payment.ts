@@ -33,7 +33,11 @@ export class Payment {
     }
 
     public static get(id: number): Promise<Payment> {
-        const sql = `SELECT * FROM "payment" WHERE id = ${id}`;
+        const sql = `SELECT p.*, u.name, u.username, e.name as employee_name
+                    FROM "payment" as p
+                            INNER JOIN "employee" AS e ON p.employee = e.id 
+                            INNER JOIN "user" AS u ON p.responsible = u.id 
+                    WHERE id = ${id}`;
 
         return TheDb.selectOne(sql)
             .then((row) => {

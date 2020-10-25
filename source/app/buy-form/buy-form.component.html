@@ -1,0 +1,198 @@
+<h2>{{'buy.title'| translate}}</h2>
+<h3 *ngIf="isOnEdit" style="position: absolute; top: 20PX; right: 20px">{{'buy.createdBy' | translate}}: {{buy?.name}} ({{buy?.username}})</h3>
+<mat-divider></mat-divider>
+<mat-card>
+    <app-loader *ngIf="block" [color]="color" [mode]="mode" [value]="value" [diameter]="48">
+    </app-loader>
+    <form [formGroup]="buyForm">
+        <div class="container">
+            <button [disabled]="buyForm.invalid" class="pull-right save" (click)="onSave()" type="button" mat-button>
+                <span class="glyphicon glyphicon-floppy-disk"></span>
+            </button>
+            <button class="pull-right cancel" type="button" (click)="onCancel()" mat-button>
+                <span class="glyphicon glyphicon-arrow-left"></span>
+            </button>
+            <div style="float: right; clear: both; margin-top: 15px; width: 45%">
+            <mat-card style="display: flex; align-items: center; justify-content: space-evenly">
+                <div style="text-align: center">
+                    <img style="width: 100px" [src]="amountImage" alt="">
+                    <div style="display: flex; margin-top: 10px; align-items: center">
+                        <img width="30" height="30" (error)="fixImage($event)" [src]="supplierImage" alt="">
+                        <span style="color: #28a745; font-size: 20px" *ngIf="buy?.totalAmount < 0" class="glyphicon glyphicon-arrow-right"></span>
+                        <span style="color: #28a745; font-size: 20px" *ngIf="buy?.totalAmount === 0" class="glyphicon glyphicon-ok"></span>
+                        <span style="color: red; font-size: 20px" *ngIf="buy?.totalAmount > 0" class="glyphicon glyphicon-arrow-left"></span>
+                        <img width="30" height="30" (error)="fixImage($event)" [src]="homeImage" alt="">
+                    </div>
+                    <h2 [ngStyle]="{color: buy?.totalAmount > 0 ? 'red' : '#28a745', fontWeight: 'bold'}">{{toAbs(buy?.totalAmount)}} <span style="font-weight: normal">{{'buy.placeholder.dinar' | translate}}</span></h2>
+                </div>
+                <hr>
+                <div style="text-align: center">
+                    <img style="width: 100px" [src]="goldImage" alt="">
+                    <div style="display: flex; margin-top: 10px; align-items: center">
+                        <img width="30" height="30" (error)="fixImage($event)" [src]="supplierImage" alt="">
+                        <span style="color: #28a745; font-size: 20px" *ngIf="buy?.totalGold < 0" class="glyphicon glyphicon-arrow-right"></span>
+                        <span style="color: #28a745; font-size: 20px" *ngIf="buy?.totalGold === 0" class="glyphicon glyphicon-ok"></span>
+                        <span style="color: red; font-size: 20px" *ngIf="buy?.totalGold > 0" class="glyphicon glyphicon-arrow-left"></span>
+                        <img width="30" height="30" (error)="fixImage($event)" [src]="homeImage" alt="">
+                    </div>
+                    <h2 [ngStyle]="{color: buy?.totalGold > 0 ? 'red' : '#28a745', fontWeight: 'bold'}">{{toAbs(buy?.totalGold)}} <span style="font-weight: normal">{{'buy.placeholder.gram' | translate}}</span></h2>
+                </div>
+            </mat-card>
+            </div>
+            <br>
+            <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>{{'buy.placeholder.supplier' | translate}}</mat-label>
+                <input name="supplier" formControlName="supplier" matInput [ngModel]="supplierSelected"
+                       (keyup)="supplierOnChange($event)" matInput [matAutocomplete]="auto"
+                       required>
+                <span class="glyphicon glyphicon-user" matPrefix></span>
+                <span matSuffix class="glyphicon glyphicon-search"></span>
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnSupplier.bind(this)"
+                                  (optionSelected)="supplierOnSelect($event.option.value)">
+                    <mat-option *ngFor="let supplier of suppliersFiltered" [value]="supplier">
+                        {{supplier?.name}}
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="supplier.invalid || !supplierSelected">{{'messages.field_required_error' | translate}}</mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="outline">
+                <mat-label>{{'buy.placeholder.date' | translate}}</mat-label>
+                <input name="date" formControlName="date" [(ngModel)]="buy.date" matInput
+                       required [matDatepicker]="picker">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker touchUi #picker></mat-datepicker>
+                <span class="glyphicon glyphicon-calendar" matPrefix></span>
+                <mat-error *ngIf="date.invalid">{{'messages.field_required_error' | translate}}</mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="outline">
+                <mat-label>{{'buy.placeholder.comment' | translate}}</mat-label>
+                <textarea name="comment" formControlName="comment" [(ngModel)]="buy.comment" matInput
+                ></textarea>
+                <span class="glyphicon glyphicon-pencil" matPrefix></span>
+                <mat-error *ngIf="comment.invalid">{{'messages.field_required_error' | translate}}</mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="outline">
+                <mat-label>{{'buy.placeholder.amountOut' | translate}}</mat-label>
+                <input name="amountOut" type="number" formControlName="amountOut" (input)="handleAmount()"
+                       [(ngModel)]="buy.amountOut" matInput
+                       required autofocus>
+                <span matPrefix><img style="width: 40px; margin-bottom: 5px" [src]="amountImage" alt=""></span>
+                <span matSuffix>{{'buy.placeholder.dinar' | translate}}</span>
+                <span style="color: red" class="glyphicon glyphicon-arrow-up" matPrefix></span>
+                <mat-error *ngIf="amountOut.invalid">{{'messages.field_required_error' | translate}}</mat-error>
+            </mat-form-field>
+            <br>
+<!--            <mat-form-field appearance="outline">-->
+<!--                <mat-label>{{'buy.placeholder.amountOut' | translate}}</mat-label>-->
+<!--                <input name="amountOut" type="number" formControlName="amountOut" (change)="handleAmount()"-->
+<!--                       [(ngModel)]="buy.amountOut" matInput-->
+<!--                       required autofocus>-->
+<!--                <span matPrefix><img style="width: 40px; margin-bottom: 5px" [src]="amountImage" alt=""></span>-->
+<!--                <span style="color: red" class="glyphicon glyphicon-arrow-up" matPrefix></span>-->
+<!--                <span matSuffix>{{'buy.placeholder.dinar' | translate}}</span>-->
+<!--                <mat-error *ngIf="amountOut.invalid">{{'messages.field_required_error' | translate}}</mat-error>-->
+<!--            </mat-form-field>-->
+<!--            <br>-->
+            <mat-form-field appearance="outline">
+                <mat-label>{{'buy.placeholder.goldOut' | translate}}</mat-label>
+                <input name="goldOut" type="number" formControlName="goldOut" (input)="handleGold()"
+                       [(ngModel)]="buy.goldOut" matInput
+                       required autofocus>
+                <span matPrefix><img style="width: 40px; margin-bottom: 5px" [src]="goldImage" alt=""></span>
+                <span matSuffix>{{'buy.placeholder.gram' | translate}}</span>
+                <span style="color: red" class="glyphicon glyphicon-arrow-up" matPrefix></span>
+                <mat-error *ngIf="goldOut.invalid">{{'messages.field_required_error' | translate}}</mat-error>
+            </mat-form-field>
+            <br>
+<!--            <mat-form-field appearance="outline">-->
+<!--                <mat-label>{{'buy.placeholder.goldOut' | translate}}</mat-label>-->
+<!--                <input name="goldOut" type="number" formControlName="goldOut" (change)="handleGold()"-->
+<!--                       [(ngModel)]="buy.goldOut" matInput-->
+<!--                       required autofocus>-->
+<!--                <span matPrefix><img style="width: 40px; margin-bottom: 5px" [src]="goldImage" alt=""></span>-->
+<!--                <span matSuffix>{{'buy.placeholder.gram' | translate}}</span>-->
+<!--                <span style="color: red" class="glyphicon glyphicon-arrow-up" matPrefix></span>-->
+<!--                <mat-error *ngIf="goldOut.invalid">{{'messages.field_required_error' | translate}}</mat-error>-->
+<!--            </mat-form-field>-->
+<!--            <br>-->
+            <div>
+                <mat-accordion>
+                    <mat-expansion-panel [expanded]="false">
+                        <mat-expansion-panel-header  style="background: #e9ecef">
+                            <mat-panel-title style="display: flex; align-items: center; font-size: 2rem">
+                                <img (error)="fixImage($event)" width="45" height="45" [src]="transactionInImage" alt=""> {{'buy.buy' | translate}}
+                            </mat-panel-title>
+                            <mat-panel-description style="color: #007bff; font-weight: bold; align-items: center; font-size: 2rem; font-family: monospace">
+                                <div style="display: flex; align-items: center"><img style="margin-right: 10px" (error)="fixImage($event)" width="30" height="30" [src]="amountImage" alt="">
+                                    <p style="margin: 0">{{amountDueCalculated || 0}} {{'buy.placeholder.dinar' | translate}}</p></div> |
+                                <div style="display: flex; align-items: center"><img style="margin-right: 10px" (error)="fixImage($event)" width="30" height="30" [src]="goldImage" alt="">
+                                    <p style="margin: 0">{{goldDueCalculated || 0}} {{'buy.placeholder.gram' | translate}}</p></div>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <div style="margin-top: 20px; display: flex; align-items: center;">
+                            <mat-form-field appearance="outline" style="margin-right: 10px; flex-grow: 1">
+                                <mat-label>{{'buy.placeholder.product' | translate}}</mat-label>
+                                <mat-select [ngModelOptions]="{standalone: true}" [ngModel]="productSelected"
+                                            (selectionChange)="onProductChange($event.value)">
+                                    <mat-option value=""></mat-option>
+                                    <mat-option *ngFor="let product of products" [value]="product">
+                                        <img [src]="(product.photo || noImage) | safe" width="40" height="40" style="border-radius: 5px
+" alt="">
+                                        {{product.name}}
+                                        [ {{product.price}} {{'product.placeholder.dinarByGram' | translate}} ]
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline">
+                                <mat-label>{{'product.placeholder.quantity' | translate}}</mat-label>
+                                <input [min]="0" type="number" [ngModelOptions]="{standalone: true}"
+                                       [ngModel]="productSelected.quantity"
+                                       (input)="productSelected.quantity = $event.target.value" matInput>
+                                <span matSuffix>{{'buy.placeholder.gram' | translate}}</span>
+                            </mat-form-field>
+                            <br>
+                            <button [disabled]="productSelected.quantity <=0 || productSelected?.id === -1 || !productSelected"
+                                    type="button" mat-raised-button
+                                    style="margin-left: 10px;  margin-bottom: 15px; border: 1px solid"
+                                    (click)="addProduct()"><span class="glyphicon glyphicon-plus"></span></button>
+                        </div>
+                        <table class="content-table">
+                            <thead>
+                            <tr>
+                                <th>{{'supplier.placeholder.photo' | translate}}</th>
+                                <th>{{'product.title' | translate}}</th>
+                                <th>{{'product.placeholder.price' | translate}}</th>
+                                <th>{{'product.placeholder.quantity' | translate}}</th>
+                                <th>{{'buy.placeholder.total' | translate}}</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let p of productsSelected">
+                                <td><img width="40" height="40" style="margin-right: 5px; border-radius: 5px"
+                                         (error)="fixImage($event)" [src]="(p.photo || noImage) | safe" alt=""></td>
+                                <td>{{p.name}}</td>
+                                <td>{{p.price}} {{'product.placeholder.dinarByGram' | translate}}</td>
+                                <td>{{p.quantity}} {{'buy.placeholder.gram' | translate}}</td>
+                                <td>{{p.price * p.quantity}} {{'buy.placeholder.dinar' | translate}}</td>
+                                <td><span style="color: red" class="glyphicon glyphicon-remove-circle" (click)="deleteProduct(p)"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold">{{'buy.placeholder.total' | translate}}</td>
+                                <td></td>
+                                <td></td>
+                                <td style="font-weight: bold">{{goldDueCalculated || 0}} {{'buy.placeholder.gram' | translate}}</td>
+                                <td style="font-weight: bold">{{amountDueCalculated || 0}} {{'buy.placeholder.dinar' | translate}}</td>
+                                <td></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+        </div>
+    </form>
+</mat-card>

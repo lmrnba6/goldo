@@ -48,6 +48,10 @@
                         <span style="font-weight: bold;font-size:20px;-webkit-text-fill-color:#007bff"
                               class="glyphicon glyphicon-info-sign"></span>
                     </a>
+                    <a *ngIf="column.print" [routerLink]="" (click)="onPrintRow(row)">
+                        <span style="font-weight: bold;font-size:20px;-webkit-text-fill-color:#9c27b0"
+                              class="glyphicon glyphicon-print"></span>
+                    </a>
                     <mat-checkbox *ngIf="setting.selectOne" [checked]="row['selected']" (change)="row['selected'] = !row['selected']"></mat-checkbox>
                 </mat-cell>
             </ng-container>

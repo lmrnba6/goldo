@@ -10,13 +10,32 @@ export class Comment {
     public id = -1;
     public comment = '';
     public date: Date| number;
-    public client = -1;
+    public client = null;
+    public supplier = null;
+    public employee = null;
 
 
 
-    public static getCount(filter: string, client: number): Promise<Comment[]> {
+    public static getCount(filter: string): Promise<Comment[]> {
+        return TheDb.selectAll(`SELECT count(*) as count FROM "comment" WHERE comment ILIKE '%${filter}%'`)
+            .then((count: any) => count);
+    }
+
+    public static getClientCount(filter: string, client: number): Promise<Comment[]> {
         return TheDb.selectAll(`SELECT count(*) as count FROM "comment" WHERE   
                             comment ILIKE '%${filter}%' AND client = ${client}`)
+            .then((count: any) => count);
+    }
+
+    public static getSupplierCount(filter: string, supplier: number): Promise<Comment[]> {
+        return TheDb.selectAll(`SELECT count(*) as count FROM "comment" WHERE   
+                            comment ILIKE '%${filter}%' AND supplier = ${supplier}`)
+            .then((count: any) => count);
+    }
+
+    public static getEmployeeCount(filter: string, employee: number): Promise<Comment[]> {
+        return TheDb.selectAll(`SELECT count(*) as count FROM "comment" WHERE   
+                            comment ILIKE '%${filter}%' AND employee = ${employee}`)
             .then((count: any) => count);
     }
 
@@ -47,7 +66,22 @@ export class Comment {
             });
     }
 
-    public static getAllPaged(pageIndex: number, pageSize: number, sort: string, order: string, filter: string, client: number): Promise<Comment[]> {
+    public static getAllPaged(pageIndex: number, pageSize: number, sort: string, order: string, filter: string): Promise<Comment[]> {
+        const sql = `SELECT c.* FROM "comment" c
+                            WHERE c.comment ILIKE '%${filter}%'
+                            ORDER BY ${sort} ${order} LIMIT ${pageSize} OFFSET ${pageIndex}`;
+
+        return TheDb.selectAll(sql)
+            .then((rows) => {
+                const users: Comment[] = [];
+                for (const row of rows) {
+                    users.push(this.toComment(row));
+                }
+                return users;
+            });
+    }
+
+    public static getAllClientPaged(pageIndex: number, pageSize: number, sort: string, order: string, filter: string, client: number): Promise<Comment[]> {
         const sql = `SELECT c.* FROM "comment" c
                             WHERE c.comment ILIKE '%${filter}%' AND
                             c.client = ${client}
@@ -63,10 +97,44 @@ export class Comment {
             });
     }
 
+    public static getAllSupplierPaged(pageIndex: number, pageSize: number, sort: string, order: string, filter: string, supplier: number): Promise<Comment[]> {
+        const sql = `SELECT c.* FROM "comment" c
+                            WHERE c.comment ILIKE '%${filter}%' AND
+                            c.supplier = ${supplier}
+                            ORDER BY ${sort} ${order} LIMIT ${pageSize} OFFSET ${pageIndex}`;
+
+        return TheDb.selectAll(sql)
+            .then((rows) => {
+                const users: Comment[] = [];
+                for (const row of rows) {
+                    users.push(this.toComment(row));
+                }
+                return users;
+            });
+    }
+
+    public static getAllEmployeePaged(pageIndex: number, pageSize: number, sort: string, order: string, filter: string, employee: number): Promise<Comment[]> {
+        const sql = `SELECT c.* FROM "comment" c
+                            WHERE c.comment ILIKE '%${filter}%' AND
+                            c.employee = ${employee}
+                            ORDER BY ${sort} ${order} LIMIT ${pageSize} OFFSET ${pageIndex}`;
+
+        return TheDb.selectAll(sql)
+            .then((rows) => {
+                const users: Comment[] = [];
+                for (const row of rows) {
+                    users.push(this.toComment(row));
+                }
+                return users;
+            });
+    }
+
+
     public insert(): Promise<void> {
         const sql = `
-            INSERT INTO "comment" (comment, date, client)
-            VALUES('${this.comment ? this.comment.replace(/\'/g, "''") : ''}', '${this.date}', ${this.client}) RETURNING *`;
+            INSERT INTO "comment" (comment, date, client, supplier, employee)
+            VALUES('${this.comment ? this.comment.replace(/\'/g, "''") : ''}', 
+            '${this.date}', ${this.client}, ${this.supplier}, ${this.employee}) RETURNING *`;
 
         return TheDb.insert(sql)
             .then((result: any) => {

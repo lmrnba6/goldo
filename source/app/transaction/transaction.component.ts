@@ -175,7 +175,8 @@ export class TransactionComponent implements OnInit, OnChanges {
             header: '',
             type: 'settings',
             delete: this.isAdmin,
-            editRow: true
+            editRow: true,
+            print: true
         });
     }
 
@@ -227,6 +228,10 @@ export class TransactionComponent implements OnInit, OnChanges {
         this.transaction = event;
         this.router.navigate(this.client ? ['transaction/form-client/' + this.client.id + '/' + event.id] : ['transaction/form/' + event.id]);
 
+    }
+
+    public onPrintRow(event: Transaction) {
+        this.router.navigate(['receipt/transaction/' + event.id])
     }
 
     onFilter(filter: string) {

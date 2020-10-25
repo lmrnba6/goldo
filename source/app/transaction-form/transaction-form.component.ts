@@ -49,7 +49,7 @@ export class TransactionFormComponent implements OnInit {
     public chargeImage = `${this.getPath()}dist/assets/images/chargeImage.png`;
     public homeImage = `${this.getPath()}dist/assets/images/homeImage.png`;
     public clientImage = `${this.getPath()}dist/assets/images/clientImage.png`;
-    public buyImage = `${this.getPath()}dist/assets/images/buyImage.png`;
+    public transactionOutImage = `${this.getPath()}dist/assets/images/transactionOutImage.png`;
 
     constructor(private fb: FormBuilder,
                 public messagesService: MessagesService,

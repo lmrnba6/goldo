@@ -1,0 +1,49 @@
+<h2>{{'buy.title'| translate}}</h2>
+<mat-divider></mat-divider>
+<mat-card>
+    <mat-card style="display: flex; align-items: center; justify-content: space-evenly">
+        <div style="text-align: center">
+            <img (error)="fixImage($event)" style="width: 100px" [src]="amountImage" alt="">
+            <div style="margin: 10px; display: flex; flex-direction: column; align-items: center;">
+                <div style="display: flex; align-items: center">
+                    <img width="40" height="40" (error)="fixImage($event)" [src]="supplierImage" alt="">
+                    <span style="color: #28a745; font-size: 30px" *ngIf="totalAmount < 0"
+                          class="glyphicon glyphicon-arrow-right"></span>
+                    <span style="color: #28a745; font-size: 20px" *ngIf="totalAmount === 0"
+                          class="glyphicon glyphicon-ok"></span>
+                    <span style="color: red; font-size: 30px" *ngIf="totalAmount > 0"
+                          class="glyphicon glyphicon-arrow-left"></span>
+                    <img width="40" height="40" (error)="fixImage($event)" [src]="homeImage" alt="">
+                </div>
+                <h1 [ngStyle]="{color: totalAmount > 0 ? 'red' : '#28a745', fontWeight: 'bold', paddingTop: '10px', paddingBottom: 0}">{{toAbs(totalAmount)}}
+                    <span style="font-weight: normal">{{'buy.placeholder.dinar' | translate}}</span></h1>
+            </div>
+        </div>
+        <hr>
+        <div style="text-align: center">
+            <img style="width: 100px" [src]="goldImage" alt="">
+            <div style="margin: 10px; display: flex; flex-direction: column; align-items: center;">
+                <div style="display: flex; align-items: center">
+                    <img width="40" height="40" (error)="fixImage($event)" [src]="supplierImage" alt="">
+                    <span style="color: #28a745; font-size: 30px" *ngIf="totalGold < 0"
+                          class="glyphicon glyphicon-arrow-right"></span>
+                    <span style="color: #28a745; font-size: 20px" *ngIf="totalGold === 0"
+                          class="glyphicon glyphicon-ok"></span>
+                    <span style="color: red; font-size: 30px" *ngIf="totalGold > 0"
+                          class="glyphicon glyphicon-arrow-left"></span>
+                    <img width="40" height="40" (error)="fixImage($event)" [src]="homeImage" alt="">
+                </div>
+                <h1 [ngStyle]="{color: totalGold > 0 ? 'red' : '#28a745', fontWeight: 'bold', paddingTop: '10px', paddingBottom: 0}">{{toAbs(totalGold) }}
+                    <span style="font-weight: normal">{{'buy.placeholder.gram' | translate}}</span></h1>
+            </div>
+        </div>
+    </mat-card>
+    <br>
+    <app-loader *ngIf="block" [color]="color" [mode]="mode" [value]="value" [diameter]="48">
+    </app-loader>
+    <app-abstract-table (printRow)="onPrintRow($event)" [page]="'buy'" (deleteAll)="ngOnInit()"
+                        (sortChange)="sortOnChange($event)" (filter)="onFilter($event)"
+                        (pageChange)="onPageChange($event)" [setting]="setting" [data]="data"
+                        (editRow)="onEditRow($event)" (deleteRow)="onRowDeleted($event)"
+                        (addRow)="onAddRow()"></app-abstract-table>
+</mat-card>

@@ -2,10 +2,20 @@
 <app-loader *ngIf="block" [color]="color" [mode]="mode" [value]="value" [diameter]="48">
 </app-loader>
 <mat-card style="display: flex; align-items: center; justify-content: space-evenly">
+    <h2 style="text-align: center">{{'supplier.title' | translate}}</h2>
     <div>
-        <canvas id="total" width="400" height="400"></canvas>
+        <canvas id="totalBuy" width="350" height="350"></canvas>
     </div>
     <div>
-        <canvas id="product" width="400" height="400"></canvas>
+        <canvas id="productBuy" width="350" height="350"></canvas>
+    </div>
+</mat-card>
+<mat-card style="display: flex; align-items: center; justify-content: space-evenly">
+    <h2 style="text-align: center">{{'client.title' | translate}}</h2>
+    <div>
+        <canvas id="total" width="350" height="350"></canvas>
+    </div>
+    <div>
+        <canvas id="product" width="350" height="350"></canvas>
     </div>
 </mat-card>

@@ -18,15 +18,14 @@ export class LayoutComponent implements OnInit {
     public options: any;
     public isSideNavOpened: boolean = true;
     public user: any;
-    public isInstructor: boolean;
-    public isClient: boolean;
-    public isParent: boolean;
     public iconsShown: boolean = true;
     public clientImage = `${this.getPath()}dist/assets/images/clientImage.png`;
+    public supplierImage = `${this.getPath()}dist/assets/images/supplierImage.png`;
     public productImage = `${this.getPath()}dist/assets/images/productImage.png`;
     public employeeImage = `${this.getPath()}dist/assets/images/employeeImage.png`;
     public resultImage = `${this.getPath()}dist/assets/images/resultImage.png`;
-    public transactionImage = `${this.getPath()}dist/assets/images/transactionImage.png`;
+    public transactionOutImage = `${this.getPath()}dist/assets/images/transactionOutImage.png`;
+    public transactionInImage = `${this.getPath()}dist/assets/images/transactionInImage.png`;
     public errorImage = `${this.getPath()}dist/assets/images/errorImage.png`;
     public settingsImage = `${this.getPath()}dist/assets/images/settingsImage.png`;
     public calculatorImage = `${this.getPath()}dist/assets/images/calculatorImage.png`;

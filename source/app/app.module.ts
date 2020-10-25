@@ -85,6 +85,12 @@ import {PaymentFormComponent} from "./payment-form/payment-form.component";
 import {StatsComponent} from "./stats/stats.component";
 import {RegisterFormComponent} from "./register-form/register-form.component";
 import {RegisterComponent} from "./register/register.component";
+import {SupplierComponent} from "./supplier/supplier.component";
+import {SupplierFormComponent} from "./supplier-form/supplier-form.component";
+import {SupplierManagementComponent} from "./supplier-management/supplier-management.component";
+import {BuyComponent} from "./buy/buy.component";
+import {BuyFormComponent} from "./buy-form/buy-form.component";
+import {ReceiptComponent} from "./receipt/receipt.component";
 
 
 @NgModule({
@@ -181,7 +187,13 @@ import {RegisterComponent} from "./register/register.component";
         PaymentFormComponent,
         StatsComponent,
         RegisterFormComponent,
-        RegisterComponent
+        RegisterComponent,
+        SupplierComponent,
+        SupplierFormComponent,
+        SupplierManagementComponent,
+        BuyComponent,
+        BuyFormComponent,
+        ReceiptComponent
     ],
     entryComponents: [ConfirmDialogComponent, InfoDialogComponent, PromptDialogComponent],
     providers: [

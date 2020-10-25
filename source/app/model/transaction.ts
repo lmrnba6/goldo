@@ -43,9 +43,10 @@ export class Transaction {
     }
 
     public static get(id: number): Promise<Transaction> {
-        const sql = `SELECT t.*, u,username, u.name
+        const sql = `SELECT t.*, u,username, u.name, c.name as client_name  
          FROM "transaction" AS t 
          INNER JOIN "user" AS u ON t.responsible = u.id
+         INNER JOIN "client" AS c ON t.client = c.id
          WHERE t.id = ${id}`;
         
         return TheDb.selectOne(sql)

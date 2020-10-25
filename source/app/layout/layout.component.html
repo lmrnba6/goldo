@@ -9,15 +9,22 @@
                     <img (error)="fixImage($event)" style="margin-right: 5px; width: 50px" [src]="clientImage" alt="">
                     <span *ngIf="iconsShown">{{'menu.client' | translate}}</span>
                 </a>
+                <a routerLinkActive="active-link" mat-list-item matTooltip="{{'menu.supplier' | translate}}"  matTooltipPosition="after" class="nav_item" routerLink="/supplier">
+                    <img (error)="fixImage($event)" style="margin-right: 5px; width: 50px" [src]="supplierImage" alt="">
+                    <span *ngIf="iconsShown">{{'menu.supplier' | translate}}</span>
+                </a>
                 <a routerLinkActive="active-link" mat-list-item matTooltip="{{'menu.product' | translate}}"  matTooltipPosition="after" class="nav_item"  routerLink="/product">
                     <img (error)="fixImage($event)" style="margin-right: 5px; width: 50px" [src]="productImage" alt="">
                     <span *ngIf="iconsShown">{{'menu.product' | translate}}</span>
                 </a>
+                <a routerLinkActive="active-link" mat-list-item matTooltip="{{'menu.buy' | translate}}"  matTooltipPosition="after" class="nav_item"  routerLink="/buy">
+                    <img (error)="fixImage($event)" style="margin-right: 5px; width: 50px" [src]="transactionInImage" alt="">
+                    <span *ngIf="iconsShown">{{'menu.buy' | translate}}</span>
+                </a>
                 <a routerLinkActive="active-link" mat-list-item matTooltip="{{'menu.transaction' | translate}}"  matTooltipPosition="after" class="nav_item"  routerLink="/transaction">
-                    <img (error)="fixImage($event)" style="margin-right: 5px; width: 50px" [src]="transactionImage" alt="">
+                    <img (error)="fixImage($event)" style="margin-right: 5px; width: 50px" [src]="transactionOutImage" alt="">
                     <span *ngIf="iconsShown">{{'menu.transaction' | translate}}</span>
                 </a>
-
                 <a routerLinkActive="active-link" mat-list-item matTooltip="{{'menu.calculator' | translate}}"  matTooltipPosition="after" class="nav_item"  routerLink="/calculator">
                     <img (error)="fixImage($event)" style="margin-right: 5px; width: 50px" [src]="calculatorImage" alt="">
                     <span *ngIf="iconsShown">{{'menu.calculator' | translate}}</span>
@@ -48,7 +55,7 @@
                 </a>
                 <br>
             </mat-nav-list>
-            <p style="position: absolute; top: 0">v 1.1.0</p>
+            <p style="position: absolute; top: 0">v 1.2.0</p>
         </mat-sidenav>
         <mat-sidenav-content>
             <router-outlet></router-outlet>

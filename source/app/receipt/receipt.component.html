@@ -1,0 +1,274 @@
+<h2>{{'receipt.title' | translate}}</h2>
+<app-loader *ngIf="block" [mode]="mode" [value]="value" [diameter]="48">
+</app-loader>
+<mat-card class="receipt">
+    <mat-accordion>
+        <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    {{'receipt.information' | translate}}
+                </mat-panel-title>
+                <mat-panel-description>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="container">
+                <mat-form-field appearance="outline">
+                    <mat-label>{{'receipt.center' | translate}}</mat-label>
+                    <input [(ngModel)]="center" matInput
+                           required>
+                </mat-form-field>
+<!--                <br>-->
+<!--                <mat-form-field appearance="outline">-->
+<!--                    <mat-label>{{'receipt.header' | translate}}</mat-label>-->
+<!--                    <input [(ngModel)]="title" matInput-->
+<!--                           required>-->
+<!--                </mat-form-field>-->
+                </div>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <br>
+    <button class="pull-right print" (click)="print()" mat-button>
+        <span class="glyphicon glyphicon-print"></span>
+    </button>
+    <button class="pull-right cancel" type="button" (click)="goBack()" mat-button>
+        <span class="glyphicon glyphicon-arrow-left"></span>
+    </button>
+    <h2>{{'receipt.receipt' | translate}}</h2>
+    <mat-card style="border: solid">
+        <div style="margin: 0" id="receipt" *ngIf="receiptName && id">
+            <div style="width: 100%; text-align: left; margin-left: 5%">
+                <h5 style="margin: 0">{{center}}</h5>
+                <h2>{{title}}</h2>
+                <h5 style="margin: 0">{{payment_code}}</h5>
+            </div>
+            <table *ngIf="receiptName === 'transaction'">
+                <tbody>
+                <tr>
+                    <td>
+                        <h5 style="margin: 0"><strong>{{'transaction.placeholder.date' | translate}}</strong></h5>
+                    </td>
+                    <td>
+                        <h5 style="margin: 0">{{toDate(transaction?.date).toLocaleDateString('fr-FR')}}</h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5 style="margin: 0"><strong>{{'transaction.placeholder.client' | translate}}:</strong></h5>
+                    </td>
+                    <td>
+                        <h5 style="margin: 0">{{transaction?.client_name}}</h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5 style="margin: 0"><strong>{{'transaction.placeholder.amountIn' | translate}}:</strong></h5>
+                    </td>
+                    <td>
+                        <h5 style="margin: 0">{{transaction?.amountIn}} {{'transaction.placeholder.dinar' | translate}}</h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5 style="margin: 0"><strong>{{'transaction.placeholder.amountDue' | translate}}:</strong></h5>
+                    </td>
+                    <td>
+                        <h5 style="margin: 0">{{transaction?.amountDue}} {{'transaction.placeholder.dinar' | translate}}</h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5 style="margin: 0"><strong>{{'transaction.placeholder.goldIn' | translate}}:</strong></h5>
+                    </td>
+                    <td>
+                        <h5 style="margin: 0">{{transaction?.goldIn}} {{'transaction.placeholder.gram' | translate}}</h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5 style="margin: 0"><strong>{{'transaction.placeholder.goldOut' | translate}}:</strong></h5>
+                    </td>
+                    <td>
+                        <h5 style="margin: 0">{{transaction?.goldOut}} {{'transaction.placeholder.gram' | translate}}</h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5 style="margin: 0"><strong>{{'transaction.placeholder.totalAmount' | translate}}:</strong></h5>
+                    </td>
+                    <td>
+                        <h5 style="margin: 0">{{transaction?.totalAmount}} {{'transaction.placeholder.dinar' | translate}}</h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5 style="margin: 0"><strong>{{'transaction.placeholder.totalGold' | translate}}:</strong></h5>
+                    </td>
+                    <td>
+                        <h5 style="margin: 0">{{transaction?.totalGold}} {{'transaction.placeholder.gram' | translate}}</h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5 style="margin: 0"><strong>{{'user.user' | translate}}:</strong></h5>
+                    </td>
+                    <td>
+                        <h5 style="margin: 0">{{transaction?.name}}</h5>
+                    </td>
+                </tr>
+                    <tr>
+                        <td>
+                            <h5 style="margin: 0"><strong>{{'product.title' | translate}}:</strong></h5>
+                        </td>
+                        <td>
+                            <h5 style="margin: 0">{{products?.length}}</h5>
+                        </td>
+                    </tr>
+                    <tr *ngFor="let p of products">
+                        <td>
+                            <h5 style="margin: 0"><strong>{{p?.name}}:</strong></h5>
+                        </td>
+                        <td>
+                            <h5 style="margin: 0">{{p?.quantity}} {{'transaction.placeholder.gram' | translate}}</h5>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table *ngIf="receiptName === 'buy'">
+                <tbody>
+                <tr>
+                    <td>
+                        <h5 style="margin: 0"><strong>{{'buy.placeholder.date' | translate}}</strong></h5>
+                    </td>
+                    <td>
+                        <h5 style="margin: 0">{{toDate(buy?.date).toLocaleDateString('fr-FR')}}</h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5 style="margin: 0"><strong>{{'buy.placeholder.supplier' | translate}}:</strong></h5>
+                    </td>
+                    <td>
+                        <h5 style="margin: 0">{{buy?.supplier_name}}</h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5 style="margin: 0"><strong>{{'buy.placeholder.amountIn' | translate}}:</strong></h5>
+                    </td>
+                    <td>
+                        <h5 style="margin: 0">{{buy?.amountIn}} {{'transaction.placeholder.dinar' | translate}}</h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5 style="margin: 0"><strong>{{'buy.placeholder.amountDue' | translate}}:</strong></h5>
+                    </td>
+                    <td>
+                        <h5 style="margin: 0">{{buy?.amountDue}} {{'transaction.placeholder.dinar' | translate}}</h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5 style="margin: 0"><strong>{{'buy.placeholder.goldIn' | translate}}:</strong></h5>
+                    </td>
+                    <td>
+                        <h5 style="margin: 0">{{buy?.goldIn}} {{'transaction.placeholder.gram' | translate}}</h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5 style="margin: 0"><strong>{{'buy.placeholder.goldOut' | translate}}:</strong></h5>
+                    </td>
+                    <td>
+                        <h5 style="margin: 0">{{buy?.goldOut}} {{'transaction.placeholder.gram' | translate}}</h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5 style="margin: 0"><strong>{{'buy.placeholder.totalAmount' | translate}}:</strong></h5>
+                    </td>
+                    <td>
+                        <h5 style="margin: 0">{{buy?.totalAmount}} {{'transaction.placeholder.dinar' | translate}}</h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5 style="margin: 0"><strong>{{'buy.placeholder.totalGold' | translate}}:</strong></h5>
+                    </td>
+                    <td>
+                        <h5 style="margin: 0">{{buy?.totalGold}} {{'transaction.placeholder.gram' | translate}}</h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5 style="margin: 0"><strong>{{'user.user' | translate}}:</strong></h5>
+                    </td>
+                    <td>
+                        <h5 style="margin: 0">{{buy?.name}}</h5>
+                    </td>
+                </tr>
+                    <tr>
+                        <td>
+                            <h5 style="margin: 0"><strong>{{'product.title' | translate}}:</strong></h5>
+                        </td>
+                        <td>
+                            <h5 style="margin: 0">{{products?.length}}</h5>
+                        </td>
+                    </tr>
+                    <tr *ngFor="let p of products">
+                        <td>
+                            <h5 style="margin: 0"><strong>{{p?.name}}:</strong></h5>
+                        </td>
+                        <td>
+                            <h5 style="margin: 0">{{p?.quantity}} {{'transaction.placeholder.gram' | translate}}</h5>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table *ngIf="receiptName === 'payment'">
+                <tbody>
+                <tr>
+                    <td>
+                        <h5 style="margin: 0"><strong>{{'payment.placeholder.date' | translate}}</strong></h5>
+                    </td>
+                    <td>
+                        <h5 style="margin: 0">{{toDate(payment?.date).toLocaleDateString('fr-FR')}}</h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5 style="margin: 0"><strong>{{'payment.placeholder.employee' | translate}}:</strong></h5>
+                    </td>
+                    <td>
+                        <h5 style="margin: 0">{{payment?.employee_name}} {{'transaction.placeholder.dinar' | translate}}</h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5 style="margin: 0"><strong>{{'payment.placeholder.amount' | translate}}:</strong></h5>
+                    </td>
+                    <td>
+                        <h5 style="margin: 0">{{payment?.amount}} {{'transaction.placeholder.dinar' | translate}}</h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5 style="margin: 0"><strong>{{'payment.placeholder.comment' | translate}}:</strong></h5>
+                    </td>
+                    <td>
+                        <h5 style="margin: 0">{{payment?.comment}}</h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5 style="margin: 0"><strong>{{'user.user' | translate}}:</strong></h5>
+                    </td>
+                    <td>
+                        <h5 style="margin: 0">{{payment?.name}}</h5>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </mat-card>
+</mat-card>

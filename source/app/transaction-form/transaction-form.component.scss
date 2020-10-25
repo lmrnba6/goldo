@@ -60,3 +60,13 @@
 .content-table tbody tr:last-of-type{
   border-bottom: 2px solid #007bff;
 }
+
+@media print {
+  #print {
+    display:table;
+    table-layout:fixed;
+    padding:0in;
+    margin: 0in;
+    height:auto;
+  }
+}

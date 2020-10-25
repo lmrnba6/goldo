@@ -8,6 +8,8 @@ import {TranslateService} from "@ngx-translate/core";
 import {AuthenticationService} from "../_services/authentication.service";
 import {Client} from "../model/client";
 import {Comment} from "../model/comment";
+import {Supplier} from "../model/supplier";
+import {Employee} from "../model/employee";
 
 @Component({
     selector: 'app-comment',
@@ -16,6 +18,8 @@ import {Comment} from "../model/comment";
 export class CommentComponent implements OnInit, OnChanges {
 
     @Input() public client: Client;
+    @Input() public supplier: Supplier;
+    @Input() public employee: Employee;
     public filter: string = '';
     public data: any;
     public tableName: string;
@@ -57,8 +61,15 @@ export class CommentComponent implements OnInit, OnChanges {
         const offset: number = pageIndex * pageSize;
         const limit: number = pageSize;
         this.block = true;
-        Promise.all([ Comment
-            .getAllPaged(offset, limit, sort, order, filter, this.client.id), Comment.getCount(this.filter, this.client.id)])
+        Promise.all([
+            this.client ? Comment.getAllClientPaged(offset, limit, sort, order, filter, this.client.id) :
+            this.supplier ? Comment.getAllSupplierPaged(offset, limit, sort, order, filter, this.supplier.id) :
+            this.employee ? Comment.getAllEmployeePaged(offset, limit, sort, order, filter, this.employee.id) :
+                Comment.getAll(),
+            this.client ? Comment.getClientCount(this.filter, this.client.id) :
+            this.supplier ? Comment.getSupplierCount(this.filter, this.supplier.id) :
+            this.employee ? Comment.getEmployeeCount(this.filter, this.employee.id) :
+                Comment.getCount(this.filter)])
             .then(
                 values => {
                     this.block = false;
@@ -133,7 +144,13 @@ export class CommentComponent implements OnInit, OnChanges {
      * add row
      */
     public onAddRow(): void {
-        this.router.navigate(['comment/form/'+ this.client.id]);
+        this.router.navigate(['comment/' +
+        (this.client ? 'form-client/' :
+            this.supplier ? 'form-supplier/' :
+                this.employee ? 'form-employee/' : 'from') +
+        (this.client ? this.client.id :
+            this.supplier ? this.supplier.id :
+                this.employee ? this.employee.id : 0)]);
     }
 
     /**
@@ -141,7 +158,12 @@ export class CommentComponent implements OnInit, OnChanges {
      */
     public onEditRow(event: Comment): void {
         this.comment = event;
-        this.router.navigate(['comment/form/'+ this.client.id + '/' + event.id]);
+        this.router.navigate(['comment/'+ (this.client ? 'form-client/' :
+            this.supplier ? 'form-supplier/' :
+                this.employee ? 'form-employee/' : 'from') +
+        (this.client ? this.client.id :
+            this.supplier ? this.supplier.id :
+                this.employee ? this.employee.id : 0) + '/' + event.id]);
     }
 
     onFilter(filter: string) {

@@ -30,6 +30,17 @@ export const sqlInit =
     PRIMARY KEY("id")
 );
 
+    CREATE TABLE IF NOT EXISTS "supplier" (
+    "id"	SERIAL NOT NULL,
+    "name"	TEXT NOT NULL,
+    "address"	TEXT,
+    "phone"	TEXT NOT NULL,
+    "phone2"	TEXT,
+    "photo"	TEXT,
+    "blocked"	BOOLEAN NOT NULL,
+    PRIMARY KEY("id")
+);
+
     CREATE TABLE IF NOT EXISTS "employee" (
     "id"	SERIAL NOT NULL,
     "name"	TEXT NOT NULL,
@@ -70,8 +81,12 @@ CREATE TABLE IF NOT EXISTS "register" (
     "id"	SERIAL NOT NULL,
     "comment"	TEXT NOT NULL,
     "date"  TEXT NOT NULL,
-    "client"	INTEGER NOT NULL,
+    "client"	INTEGER,
+    "employee"	INTEGER,
+    "supplier"	INTEGER,
     FOREIGN KEY(client) REFERENCES "client"(id),
+    FOREIGN KEY(employee) REFERENCES "employee"(id),
+    FOREIGN KEY(supplier) REFERENCES "supplier"(id),
     PRIMARY KEY("id")
 );
 
@@ -94,12 +109,41 @@ CREATE TABLE IF NOT EXISTS "register" (
     PRIMARY KEY("id")
 );
 
+CREATE TABLE IF NOT EXISTS "buy" (
+    "id"	SERIAL NOT NULL,
+    "goldIn"	NUMERIC NOT NULL,
+    "amountIn"	NUMERIC NOT NULL,
+    "goldOut"	NUMERIC NOT NULL,
+    "amountOut"	NUMERIC NOT NULL,
+    "amountDue"	NUMERIC NOT NULL,
+    "totalAmount"	NUMERIC NOT NULL,
+    "totalGold"	NUMERIC NOT NULL,
+    "date"  TEXT NOT NULL,
+    "comment"  TEXT NOT NULL,
+    "type" TEXT NOT NULL,
+    "supplier"	INTEGER NOT NULL,
+    "responsible"	INTEGER NOT NULL,
+    FOREIGN KEY(supplier) REFERENCES "supplier"(id),
+    FOREIGN KEY(responsible) REFERENCES "user"(id),
+    PRIMARY KEY("id")
+);
+
 CREATE TABLE IF NOT EXISTS "transactionProduct" (
     "id" SERIAL NOT NULL,
     "product" INTEGER NOT NULL,
     "transaction" INTEGER NOT NULL,
     "quantity"  NUMERIC NOT NULL,
     FOREIGN KEY(transaction) REFERENCES "transaction"(id),
+    FOREIGN KEY(product) REFERENCES "product"(id),
+    PRIMARY KEY("id")
+);
+
+CREATE TABLE IF NOT EXISTS "buyProduct" (
+    "id" SERIAL NOT NULL,
+    "product" INTEGER NOT NULL,
+    "buy" INTEGER NOT NULL,
+    "quantity"  NUMERIC NOT NULL,
+    FOREIGN KEY(buy) REFERENCES "buy"(id),
     FOREIGN KEY(product) REFERENCES "product"(id),
     PRIMARY KEY("id")
 );

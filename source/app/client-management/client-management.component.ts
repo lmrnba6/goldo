@@ -18,7 +18,7 @@ export class ClientManagementComponent implements OnInit {
     public mode: string = 'indeterminate';
     public value: number = 100;
     public isClient: boolean;
-    public enrollmentImage = `${this.getPath()}dist/assets/images/enrollmentImage.png`;
+    public transactionImage = `${this.getPath()}dist/assets/images/transactionImage.png`;
     public chargeImage = `${this.getPath()}dist/assets/images/chargeImage.png`;
     public infoImage = `${this.getPath()}dist/assets/images/infoImage.png`;
     public commentImage = `${this.getPath()}dist/assets/images/commentImage.png`;
