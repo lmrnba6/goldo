@@ -22,7 +22,7 @@
                         <mat-select [ngModelOptions]="{standalone: true}" [ngModel]="productSelected"
                                     (selectionChange)="onProductChange($event.value)">
                             <mat-option value=""></mat-option>
-                            <mat-option *ngFor="let product of products" [value]="product">
+                            <mat-option *ngFor="let product of productsFiltered" [value]="product">
                                 <img [src]="(product.photo || noImage) | safe" width="40" height="40" style="border-radius: 5px
 " alt="">
                                 {{product.name}} [ {{product.price}} {{'product.placeholder.dinarByGram' | translate}} ]

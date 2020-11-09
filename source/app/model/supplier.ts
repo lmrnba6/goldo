@@ -68,7 +68,6 @@ export class Supplier{
         const sql = `
             INSERT INTO "supplier" (name, address, phone, phone2, "blocked", photo)
             VALUES('${this.name ? this.name.replace(/\'/g, "''") : ''}',
-           
             '${this.address ? this.address.replace(/\'/g, "''"):''}', '${this.phone}', 
             '${this.phone2}', ${this.blocked}, '${this.photo}') RETURNING *`;
 

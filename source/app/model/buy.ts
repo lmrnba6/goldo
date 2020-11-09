@@ -114,7 +114,7 @@ export class Buy {
         const sql = `
             INSERT INTO "buy" ("amountIn", "amountOut", "goldIn", "goldOut", "amountDue", "totalAmount", "totalGold", date, comment,type, supplier, responsible)
             VALUES(${this.amountIn},${this.amountOut},${this.goldIn}, ${this.goldOut},${this.amountDue},
-            ${this.totalAmount},${this.totalGold}, '${this.date}','${this.type}', '${this.comment ? this.comment.replace(/\'/g, "''") : ''}',
+            ${this.totalAmount},${this.totalGold}, '${this.date}', '${this.comment ? this.comment.replace(/\'/g, "''") : ''}','${this.type}',
             ${this.supplier}, ${this.responsible}) RETURNING *`;
 
         return TheDb.insert(sql)

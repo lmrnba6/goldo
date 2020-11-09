@@ -16,6 +16,7 @@ export class CalculatorComponent implements OnInit {
   public products: Array<Product> = [];
   public productsSelected: Array<Product> = [];
   public productSelected: Product = new Product();
+  public productsFiltered: Array<Product> = [];
   public transaction: Transaction;
   public noImage = `${this.getPath()}dist/assets/images/noImage.png`;
   public calculatorImage = `${this.getPath()}dist/assets/images/calculatorImage.png`;
@@ -37,6 +38,7 @@ export class CalculatorComponent implements OnInit {
     this.block = true;
     Product.getAll().then(s => {
       this.products = s;
+      this.productsFiltered = this.products.filter(s => !this.productsSelected.find(x =>x.id === s.id));
       this.block = false;
     }, () => {
       this.transaction.date = new Date(this.transaction.date);
@@ -84,6 +86,7 @@ export class CalculatorComponent implements OnInit {
     if(this.productSelected && this.productSelected.quantity > 0 && this.productSelected.id > 0 ) {
       const p: Product = JSON.parse(JSON.stringify(this.productSelected));
       this.productsSelected = [...this.productsSelected, p];
+      this.productsFiltered = this.products.filter(s => !this.productsSelected.find(x =>x.id === s.id));
       this.productSelected = new Product();
       this.calculateAmountTotal();
       this.calculateGoldTotal();

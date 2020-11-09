@@ -30,6 +30,7 @@ export class TransactionFormComponent implements OnInit {
     public comment: FormControl;
     public client: FormControl;
     public products: Array<Product> = [];
+    public productsFiltered: Array<Product> = [];
     public productsSelected: Array<Product> = [];
     public productSelected: Product = new Product();
     public limitGold: number;
@@ -135,6 +136,7 @@ export class TransactionFormComponent implements OnInit {
         if(this.productSelected && this.productSelected.quantity > 0 && this.productSelected.id > 0 ) {
             const p: Product = JSON.parse(JSON.stringify(this.productSelected));
             this.productsSelected = [...this.productsSelected, p];
+            this.productsFiltered = this.products.filter(s => !this.productsSelected.find(x =>x.id === s.id));
             this.productSelected = new Product();
             this.calculateAmountTotal();
             this.calculateGoldTotal();
@@ -233,6 +235,7 @@ export class TransactionFormComponent implements OnInit {
         this.block = true;
         Product.getAll().then(s => {
             this.products = s;
+            this.productsFiltered = this.products.filter(s => !this.productsSelected.find(x =>x.id === s.id));
             this.block = false;
         }, () => {
             this.transaction.date = new Date(this.transaction.date);

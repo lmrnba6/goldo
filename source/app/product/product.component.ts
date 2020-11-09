@@ -89,7 +89,7 @@ export class ProductComponent implements OnInit {
       { columnDef: 'name', header: 'product.placeholder.name', type: 'text', cell: (row: any) => `${row.name}` },
       { columnDef: 'description', header: 'product.placeholder.description', type: 'text', cell: (row: any) => `${row.description}`},
       { columnDef: 'price', header: 'product.placeholder.price', type: 'text', cell: (row: any) => `${row.price} ${this.translate.instant('product.placeholder.dinarByGram')}`},
-      { columnDef: 'quantity', header: 'product.placeholder.quantity', type: 'text', cell: (row: any) => `${row.quantity} ${this.translate.instant('product.placeholder.gram')}`},
+      // { columnDef: 'quantity', header: 'product.placeholder.quantity', type: 'text', cell: (row: any) => `${row.quantity} ${this.translate.instant('product.placeholder.gram')}`},
       // { columnDef: 'category', header: 'product.placeholder.category', type: 'text', cell: (row: any) => row.category}
       {columnDef: 'settings',class: 'a10', header: '', type: 'settings', delete: this.isAdmin, editRow: true}
     ];

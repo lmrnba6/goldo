@@ -2,6 +2,7 @@
 const {app, BrowserWindow } = require('electron');
 const path = require('path');
 const {autoUpdater} = require('electron-updater');
+const  pg  = require("pg");
 
 let waitBeforeClose = true;
 //require('update-electron-app')();
@@ -94,6 +95,8 @@ let createWindow = () => {
 		// when you should delete the corresponding element.
 		mainWindow = null;
 	});
+
+	require('./server');
 
 	autoUpdater.checkForUpdates();
 

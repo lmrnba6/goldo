@@ -45,10 +45,9 @@
                 <mat-error *ngIf="price.invalid">{{'messages.field_required_error' | translate}}</mat-error>
             </mat-form-field>
             <br>
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" style="display: none">
                 <mat-label>{{'product.placeholder.quantity' | translate}}</mat-label>
-                <input name="quantity" formControlName="quantity" type="number" [(ngModel)]="product.quantity" matInput
-                       required>
+                <input name="quantity" formControlName="quantity" type="number" [(ngModel)]="product.quantity" matInput>
                 <span class="glyphicon glyphicon-inbox" matPrefix></span>
                 <span matSuffix>{{'product.placeholder.gram' | translate}}</span>
                 <mat-error *ngIf="quantity.invalid">{{'messages.field_required_error' | translate}}</mat-error>

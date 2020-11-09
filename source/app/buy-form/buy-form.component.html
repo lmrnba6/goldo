@@ -13,13 +13,13 @@
                 <span class="glyphicon glyphicon-arrow-left"></span>
             </button>
             <div style="float: right; clear: both; margin-top: 15px; width: 45%">
-            <mat-card style="display: flex; align-items: center; justify-content: space-evenly">
+            <mat-card style="display: flex; align-items: center; justify-content: space-evenly; background: aliceblue">
                 <div style="text-align: center">
                     <img style="width: 100px" [src]="amountImage" alt="">
                     <div style="display: flex; margin-top: 10px; align-items: center">
                         <img width="30" height="30" (error)="fixImage($event)" [src]="supplierImage" alt="">
                         <span style="color: #28a745; font-size: 20px" *ngIf="buy?.totalAmount < 0" class="glyphicon glyphicon-arrow-right"></span>
-                        <span style="color: #28a745; font-size: 20px" *ngIf="buy?.totalAmount === 0" class="glyphicon glyphicon-ok"></span>
+                        <span style="color: #007bff; font-size: 20px" *ngIf="buy?.totalAmount === 0" class="glyphicon glyphicon-ok"></span>
                         <span style="color: red; font-size: 20px" *ngIf="buy?.totalAmount > 0" class="glyphicon glyphicon-arrow-left"></span>
                         <img width="30" height="30" (error)="fixImage($event)" [src]="homeImage" alt="">
                     </div>
@@ -31,7 +31,7 @@
                     <div style="display: flex; margin-top: 10px; align-items: center">
                         <img width="30" height="30" (error)="fixImage($event)" [src]="supplierImage" alt="">
                         <span style="color: #28a745; font-size: 20px" *ngIf="buy?.totalGold < 0" class="glyphicon glyphicon-arrow-right"></span>
-                        <span style="color: #28a745; font-size: 20px" *ngIf="buy?.totalGold === 0" class="glyphicon glyphicon-ok"></span>
+                        <span style="color: #007bff; font-size: 20px" *ngIf="buy?.totalGold === 0" class="glyphicon glyphicon-ok"></span>
                         <span style="color: red; font-size: 20px" *ngIf="buy?.totalGold > 0" class="glyphicon glyphicon-arrow-left"></span>
                         <img width="30" height="30" (error)="fixImage($event)" [src]="homeImage" alt="">
                     </div>
@@ -138,7 +138,7 @@
                                 <mat-select [ngModelOptions]="{standalone: true}" [ngModel]="productSelected"
                                             (selectionChange)="onProductChange($event.value)">
                                     <mat-option value=""></mat-option>
-                                    <mat-option *ngFor="let product of products" [value]="product">
+                                    <mat-option *ngFor="let product of productsFiltered" [value]="product">
                                         <img [src]="(product.photo || noImage) | safe" width="40" height="40" style="border-radius: 5px
 " alt="">
                                         {{product.name}}
