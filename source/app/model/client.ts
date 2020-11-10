@@ -14,10 +14,11 @@ export class Client{
     public address = '';
     public photo: string = '';
     public blocked: boolean;
+    public deleted: boolean;
 
     public static getCount(filter: string): Promise<Client[]> {
-        return TheDb.selectAll(`SELECT count(*) as count FROM "client" WHERE name ILIKE '%${filter}%' OR 
-                                        phone ILIKE '%${filter}%'`)
+        return TheDb.selectAll(`SELECT count(*) as count FROM "client" WHERE (name ILIKE '%${filter}%' OR 
+                                        phone ILIKE '%${filter}%') and deleted = false`)
             .then((count: any) => count);
     }
 
@@ -35,7 +36,7 @@ export class Client{
     }
 
     public static getAll(): Promise<Client[]> {
-        const sql = `SELECT * FROM "client"`;
+        const sql = `SELECT * FROM "client" WHERE deleted = false`;
 
         return TheDb.selectAll(sql)
             .then((rows) => {
@@ -50,8 +51,8 @@ export class Client{
     public static getAllPaged(pageIndex: number, pageSize: number, sort: string, order: string, filter: string): Promise<Client[]> {
         const sql = `select i.*
                             from client as i 
-                            WHERE i.name ILIKE '%${filter}%' OR 
-                            i.phone ILIKE '%${filter}%'
+                            WHERE (i.name ILIKE '%${filter}%' OR 
+                            i.phone ILIKE '%${filter}%') and i.deleted = false
                             ORDER BY ${sort} ${order} LIMIT ${pageSize} OFFSET ${pageIndex}`;
 
         return TheDb.selectAll(sql)
@@ -117,6 +118,17 @@ export class Client{
     public static delete(id: number): Promise<void> {
         const sql = `
             DELETE FROM "client" WHERE id = ${id}`;
+
+        return TheDb.delete(sql)
+            .then((result) => {
+                if (result.changes !== 1) {
+                    throw new Error(`Expected 1 Client to be deleted. Was ${result.changes}`);
+                }
+            });
+    }
+
+    public static safeDelete(id: number): Promise<void> {
+        const sql = `UPDATE "client" SET deleted = true WHERE id = ${id}`;
 
         return TheDb.delete(sql)
             .then((result) => {

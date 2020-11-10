@@ -40,7 +40,7 @@
             <mat-form-field appearance="outline">
                 <mat-label>{{'employee.placeholder.phone' | translate}}</mat-label>
                 <input name="phone" type="number" formControlName="phone" [(ngModel)]="employee.phone" matInput
-                       required>
+                       >
                 <span class="glyphicon glyphicon-earphone" matPrefix></span>
                 <mat-error *ngIf="phone.invalid">{{'messages.field_required_error' | translate}}</mat-error>
             </mat-form-field>

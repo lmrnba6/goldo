@@ -118,7 +118,7 @@ export class ClientComponent implements OnInit, OnChanges {
                 if (confirm) {
                     this.block = true;
                     Client
-                        .delete(id)
+                        .safeDelete(id)
                         .then(
                             () => {
                                 this.block = false;

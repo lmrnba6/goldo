@@ -123,7 +123,7 @@ export class CommentComponent implements OnInit, OnChanges {
                 if (confirm) {
                     this.block = true;
                     Comment
-                        .delete(id)
+                        .safeDelete(id)
                         .then(
                             () => {
                                 this.block = false;

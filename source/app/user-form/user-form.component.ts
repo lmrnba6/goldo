@@ -51,7 +51,7 @@ export class UserFormComponent implements OnInit {
             } else {
                 this.isOnEdit = false;
                 this.user = new User();
-                this.roles = ['user'];
+                this.roles = ['admin', 'user'];
                 this.initForm();
             }
         });

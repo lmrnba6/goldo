@@ -14,11 +14,12 @@ export class Register {
     public comment = '';
     public responsible: number | User;
     public error = 0;
+    public deleted: boolean;
 
     public static getCount(filter: string): Promise<Register[]> {
         const sql =
             `SELECT count(*) as count FROM "register" AS p 
-                            WHERE  p.comment ILIKE '%${filter}%' `;
+                            WHERE  p.comment ILIKE '%${filter}%' AND p.deleted = false`;
         return TheDb.selectAll(sql)
             .then((count: any) => count);
     }
@@ -39,7 +40,8 @@ export class Register {
 
     public static getAll(): Promise<Register[]> {
         const sql = `SELECT p.*, u.name as responsible FROM "register" p
-                            INNER JOIN "user" AS u ON p.responsible = u.id 
+                            INNER JOIN "user" AS u ON p.responsible = u.id
+                            WHERE p.deleted = false 
                             ORDER BY p.date DESC`;
 
         return TheDb.selectAll(sql)
@@ -59,7 +61,7 @@ export class Register {
                             FROM "register" AS p 
                             INNER JOIN "user" AS u ON p.responsible = u.id 
                             WHERE                            
-                            p.comment ILIKE '%${filter}%'
+                            p.comment ILIKE '%${filter}%' AND p.deleted = false
                             and p.date between '${start}' and '${end}'
                             ORDER BY ${sort} ${order} LIMIT ${pageSize} OFFSET ${pageIndex}`;
 
@@ -79,7 +81,7 @@ export class Register {
                             FROM "register" AS p 
                             INNER JOIN "user" AS u ON p.responsible = u.id 
                             WHERE                            
-                            p.comment ILIKE '%${filter}%' 
+                            p.comment ILIKE '%${filter}%' AND p.deleted = false
                             and p.date between '${start}' and '${end}' and p.amount > 0
                             ORDER BY ${sort} ${order} LIMIT ${pageSize} OFFSET ${pageIndex}`;
 
@@ -100,7 +102,7 @@ export class Register {
                             FROM "register" AS p 
                             INNER JOIN "user" AS u ON p.responsible = u.id 
                             WHERE                            
-                            p.comment ILIKE '%${filter}%' 
+                            p.comment ILIKE '%${filter}%' AND p.deleted = false
                             and p.date between '${start}' and '${end}'  and p.amount < 0
                             ORDER BY ${sort} ${order} LIMIT ${pageSize} OFFSET ${pageIndex}`;
 
@@ -156,6 +158,17 @@ export class Register {
             .then((result) => {
                 if (result.changes !== 1) {
                     throw new Error(`Expected 1 Register to be deleted. Was ${result.changes}`);
+                }
+            });
+    }
+
+    public static safeDelete(id: number): Promise<void> {
+        const sql = `UPDATE "register" SET deleted = true  WHERE id = ${id}`;
+
+        return TheDb.update(sql)
+            .then((result) => {
+                if (result.changes !== 1) {
+                    throw new Error(`Expected 1 User to be deleted. Was ${result.changes}`);
                 }
             });
     }

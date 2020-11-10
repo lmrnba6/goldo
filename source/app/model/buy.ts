@@ -22,6 +22,7 @@ export class Buy {
     public type = '';
     public supplier: number | Supplier;
     public responsible: number | User;
+    public deleted: boolean;
 
 
     public static getCount(filter: string): Promise<Buy[]> {
@@ -29,7 +30,7 @@ export class Buy {
             `SELECT count(*) as count FROM "buy" AS p 
                             INNER JOIN "supplier" AS i ON p.supplier = i.id 
                             INNER JOIN "user" AS u ON p.responsible = u.id
-                            WHERE  i.name ILIKE '%${filter}%' `;
+                            WHERE  i.name ILIKE '%${filter}%' AND p.deleted = false`;
         return TheDb.selectAll(sql)
             .then((count: any) => count);
     }
@@ -38,7 +39,7 @@ export class Buy {
         return TheDb.selectAll(`SELECT count(*) as count FROM "buy" AS p 
                                     INNER JOIN "supplier" AS i ON p.supplier = i.id 
                                     INNER JOIN "user" AS u ON p.responsible = u.id
-                            WHERE i.id = ${supplier}`)
+                            WHERE i.id = ${supplier} AND p.deleted = false`)
             .then((count: any) => count);
     }
 
@@ -60,7 +61,7 @@ export class Buy {
     }
     
     public static getAll(): Promise<Buy[]> {
-        const sql = `SELECT * FROM "buy" ORDER BY date DESC`;
+        const sql = `SELECT * FROM "buy" WHERE deleted = false ORDER BY date DESC`;
 
         return TheDb.selectAll(sql)
             .then((rows) => {
@@ -79,7 +80,7 @@ export class Buy {
                             INNER JOIN "supplier" AS c ON t.supplier = c.id
                             INNER JOIN "user" AS u ON t.responsible = u.id
                             WHERE  
-                            c.name ILIKE '%${filter}%' 
+                            c.name ILIKE '%${filter}%' AND t.deleted = false
                             ORDER BY ${sort} ${order} LIMIT ${pageSize} OFFSET ${pageIndex}`;
 
         return TheDb.selectAll(sql)
@@ -97,7 +98,7 @@ export class Buy {
                             FROM "buy" AS t 
                             INNER JOIN "supplier" AS c ON t.supplier = c.id
                             INNER JOIN "user" AS u ON t.responsible = u.id
-                            WHERE c.id = ${supplier}
+                            WHERE c.id = ${supplier} AND t.deleted = false
                             ORDER BY ${sort} ${order} LIMIT ${pageSize} OFFSET ${pageIndex}`;
         
         return TheDb.selectAll(sql)
@@ -154,6 +155,17 @@ export class Buy {
             .then((result) => {
                 if (result.changes !== 1) {
                     throw new Error(`Expected 1 Buy to be deleted. Was ${result.changes}`);
+                }
+            });
+    }
+
+    public static safeDelete(id: number): Promise<void> {
+        const sql = `UPDATE "buy" SET deleted = true  WHERE id = ${id}`;
+
+        return TheDb.update(sql)
+            .then((result) => {
+                if (result.changes !== 1) {
+                    throw new Error(`Expected 1 User to be deleted. Was ${result.changes}`);
                 }
             });
     }

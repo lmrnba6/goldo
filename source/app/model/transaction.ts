@@ -22,6 +22,7 @@ export class Transaction {
     public type = '';
     public client: number | Client;
     public responsible: number | User;
+    public deleted: boolean;
 
 
     public static getCount(filter: string): Promise<Transaction[]> {
@@ -29,7 +30,7 @@ export class Transaction {
             `SELECT count(*) as count FROM "transaction" AS p 
                             INNER JOIN "client" AS i ON p.client = i.id 
                             INNER JOIN "user" AS u ON p.responsible = u.id
-                            WHERE  i.name ILIKE '%${filter}%' `;
+                            WHERE  i.name ILIKE '%${filter}%' AND p.deleted = false`;
         return TheDb.selectAll(sql)
             .then((count: any) => count);
     }
@@ -38,7 +39,7 @@ export class Transaction {
         return TheDb.selectAll(`SELECT count(*) as count FROM "transaction" AS p 
                                     INNER JOIN "client" AS i ON p.client = i.id 
                                     INNER JOIN "user" AS u ON p.responsible = u.id
-                            WHERE i.id = ${client}`)
+                            WHERE i.id = ${client} AND p.deleted = false`)
             .then((count: any) => count);
     }
 
@@ -60,7 +61,7 @@ export class Transaction {
     }
     
     public static getAll(): Promise<Transaction[]> {
-        const sql = `SELECT * FROM "transaction" ORDER BY date DESC`;
+        const sql = `SELECT * FROM "transaction" WHERE deleted = false ORDER BY date DESC`;
 
         return TheDb.selectAll(sql)
             .then((rows) => {
@@ -79,7 +80,7 @@ export class Transaction {
                             INNER JOIN "client" AS c ON t.client = c.id
                             INNER JOIN "user" AS u ON t.responsible = u.id
                             WHERE  
-                            c.name ILIKE '%${filter}%' 
+                            c.name ILIKE '%${filter}%' AND t.deleted = false
                             ORDER BY ${sort} ${order} LIMIT ${pageSize} OFFSET ${pageIndex}`;
 
         return TheDb.selectAll(sql)
@@ -97,7 +98,7 @@ export class Transaction {
                             FROM "transaction" AS t 
                             INNER JOIN "client" AS c ON t.client = c.id
                             INNER JOIN "user" AS u ON t.responsible = u.id
-                            WHERE c.id = ${client}
+                            WHERE c.id = ${client} AND t.deleted = false
                             ORDER BY ${sort} ${order} LIMIT ${pageSize} OFFSET ${pageIndex}`;
         
         return TheDb.selectAll(sql)
@@ -154,6 +155,17 @@ export class Transaction {
             .then((result) => {
                 if (result.changes !== 1) {
                     throw new Error(`Expected 1 Transaction to be deleted. Was ${result.changes}`);
+                }
+            });
+    }
+
+    public static safeDelete(id: number): Promise<void> {
+        const sql = `UPDATE "transaction" SET deleted = true WHERE id = ${id}`;
+
+        return TheDb.delete(sql)
+            .then((result) => {
+                if (result.changes !== 1) {
+                    throw new Error(`Expected 1 Client to be deleted. Was ${result.changes}`);
                 }
             });
     }

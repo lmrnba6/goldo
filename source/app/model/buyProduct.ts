@@ -12,10 +12,12 @@ export class BuyProduct {
     public product: number | Product;
     public buy: number | BuyProduct;
     public quantity: number;
-    
-    
+    public deleted: boolean;
+
     public static getAll(): Promise<BuyProduct[]> {
-        const sql = `SELECT * FROM "buyProduct"`;
+        const sql = `SELECT * FROM "buyProduct" as bp 
+                        INNER JOIN "buy" as b on b.id = bp.buy
+                        WHERE b.deleted = false`;
 
         return TheDb.selectAll(sql)
             .then((rows) => {
@@ -76,6 +78,17 @@ export class BuyProduct {
             .then((result) => {
                 if (result.changes !== 1) {
                     throw new Error(`Expected 1 Buy to be deleted. Was ${result.changes}`);
+                }
+            });
+    }
+
+    public static safeDelete(id: number): Promise<void> {
+        const sql = `UPDATE "buyProduct" SET deleted = true  WHERE id = ${id}`;
+
+        return TheDb.update(sql)
+            .then((result) => {
+                if (result.changes !== 1) {
+                    throw new Error(`Expected 1 User to be deleted. Was ${result.changes}`);
                 }
             });
     }

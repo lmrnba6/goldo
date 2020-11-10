@@ -194,10 +194,8 @@ export class BuyComponent implements OnInit, OnChanges {
             .confirm('messages.warning_title', 'messages.remove_row_warning_message', true, 'warning-sign')
             .subscribe(confirm => {
                 if (confirm) {
-                    Buy.get(id).then(() => {
                         this.block = true;
-                        Buy
-                            .delete(id)
+                        Buy.safeDelete(id)
                             .then(
                                 () => {
                                     this.block = false;
@@ -210,7 +208,6 @@ export class BuyComponent implements OnInit, OnChanges {
                                     this.messagesService.notifyMessage(this.translate.instant('messages.unable_delete_relation'), '', 'error');
                                 }
                             );
-                    });
                 }
             });
     }

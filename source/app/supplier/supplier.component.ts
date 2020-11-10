@@ -98,11 +98,35 @@ export class SupplierComponent implements OnInit, OnChanges {
         this.setting.filter = this.isUser || this.isAdmin;
         this.setting.addRow = this.isUser || this.isAdmin;
         this.setting.cols = [
-            {columnDef: 'photo',class: 'a10', header: 'supplier.placeholder.photo', type: 'img', cell: (row: any) => `${row.photo}`},
-            {columnDef: 'name',class: 'a30', header: 'supplier.placeholder.name', type: 'text', cell: (row: any) => `${row.name}`},
-            {columnDef: 'address',class: 'a30', header: 'supplier.placeholder.address', type: 'text', cell: (row: any) => `${row.address || ''}`},
-            {columnDef: 'phone',class: 'a10', header: 'supplier.placeholder.phone', type: 'text', cell: (row: any) => `${row.phone}`},
-            {columnDef: 'settings',class: 'a10', header: '', type: 'settings', delete: this.isAdmin, editRow: true}
+            {
+                columnDef: 'photo',
+                class: 'a10',
+                header: 'supplier.placeholder.photo',
+                type: 'img',
+                cell: (row: any) => `${row.photo}`
+            },
+            {
+                columnDef: 'name',
+                class: 'a30',
+                header: 'supplier.placeholder.name',
+                type: 'text',
+                cell: (row: any) => `${row.name}`
+            },
+            {
+                columnDef: 'address',
+                class: 'a30',
+                header: 'supplier.placeholder.address',
+                type: 'text',
+                cell: (row: any) => `${row.address || ''}`
+            },
+            {
+                columnDef: 'phone',
+                class: 'a10',
+                header: 'supplier.placeholder.phone',
+                type: 'text',
+                cell: (row: any) => `${row.phone}`
+            },
+            {columnDef: 'settings', class: 'a10', header: '', type: 'settings', delete: this.isAdmin, editRow: true}
         ];
 
 
@@ -118,7 +142,7 @@ export class SupplierComponent implements OnInit, OnChanges {
                 if (confirm) {
                     this.block = true;
                     Supplier
-                        .delete(id)
+                        .safeDelete(id)
                         .then(
                             () => {
                                 this.block = false;

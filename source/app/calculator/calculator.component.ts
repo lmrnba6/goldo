@@ -98,6 +98,7 @@ export class CalculatorComponent implements OnInit {
     if (index >= 0) {
       this.productsSelected.splice(index, 1);
     }
+    this.productsFiltered = this.products.filter(s => !this.productsSelected.find(x =>x.id === s.id));
     this.calculateAmountTotal();
     this.calculateGoldTotal();
   }

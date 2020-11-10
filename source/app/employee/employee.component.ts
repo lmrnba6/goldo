@@ -118,7 +118,7 @@ export class EmployeeComponent implements OnInit, OnChanges {
                 if (confirm) {
                     this.block = true;
                     Employee
-                        .delete(id)
+                        .safeDelete(id)
                         .then(
                             () => {
                                 this.block = false;

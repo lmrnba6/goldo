@@ -15,10 +15,11 @@ export class Employee{
     public photo: string = '';
     public blocked: boolean;
     public sold = 0
+    public deleted: boolean;
 
     public static getCount(filter: string): Promise<Employee[]> {
-        return TheDb.selectAll(`SELECT count(*) as count FROM "employee" WHERE name ILIKE '%${filter}%' OR 
-                                        phone ILIKE '%${filter}%'`)
+        return TheDb.selectAll(`SELECT count(*) as count FROM "employee" WHERE (name ILIKE '%${filter}%' OR 
+                                        phone ILIKE '%${filter}%') AND deleted = false`)
             .then((count: any) => count);
     }
 
@@ -36,7 +37,7 @@ export class Employee{
     }
 
     public static getAll(): Promise<Employee[]> {
-        const sql = `SELECT * FROM "employee"`;
+        const sql = `SELECT * FROM "employee" WHERE deleted = false`;
 
         return TheDb.selectAll(sql)
             .then((rows) => {
@@ -51,8 +52,8 @@ export class Employee{
     public static getAllPaged(pageIndex: number, pageSize: number, sort: string, order: string, filter: string): Promise<Employee[]> {
         const sql = `select i.*
                             from employee as i 
-                            WHERE i.name ILIKE '%${filter}%' OR 
-                            i.phone ILIKE '%${filter}%'
+                            WHERE (i.name ILIKE '%${filter}%' OR 
+                            i.phone ILIKE '%${filter}%') AND i.deleted = false
                             ORDER BY ${sort} ${order} LIMIT ${pageSize} OFFSET ${pageIndex}`;
 
         return TheDb.selectAll(sql)
@@ -125,6 +126,17 @@ export class Employee{
             .then((result) => {
                 if (result.changes !== 1) {
                     throw new Error(`Expected 1 Employee to be deleted. Was ${result.changes}`);
+                }
+            });
+    }
+
+    public static safeDelete(id: number): Promise<void> {
+        const sql = `UPDATE "employee" SET deleted = true WHERE id = ${id}`;
+
+        return TheDb.delete(sql)
+            .then((result) => {
+                if (result.changes !== 1) {
+                    throw new Error(`Expected 1 Client to be deleted. Was ${result.changes}`);
                 }
             });
     }

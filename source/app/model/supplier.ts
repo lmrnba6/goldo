@@ -14,10 +14,11 @@ export class Supplier{
     public address = '';
     public photo: string = '';
     public blocked: boolean;
+    public deleted: boolean;
 
     public static getCount(filter: string): Promise<Supplier[]> {
-        return TheDb.selectAll(`SELECT count(*) as count FROM "supplier" WHERE name ILIKE '%${filter}%' OR 
-                                        phone ILIKE '%${filter}%'`)
+        return TheDb.selectAll(`SELECT count(*) as count FROM "supplier" WHERE (name ILIKE '%${filter}%' OR 
+                                        phone ILIKE '%${filter}%') AND deleted = false`)
             .then((count: any) => count);
     }
 
@@ -35,7 +36,7 @@ export class Supplier{
     }
 
     public static getAll(): Promise<Supplier[]> {
-        const sql = `SELECT * FROM "supplier"`;
+        const sql = `SELECT * FROM "supplier" WHERE deleted = false`;
 
         return TheDb.selectAll(sql)
             .then((rows) => {
@@ -50,8 +51,8 @@ export class Supplier{
     public static getAllPaged(pageIndex: number, pageSize: number, sort: string, order: string, filter: string): Promise<Supplier[]> {
         const sql = `select i.*
                             from supplier as i 
-                            WHERE i.name ILIKE '%${filter}%' OR 
-                            i.phone ILIKE '%${filter}%'
+                            WHERE (i.name ILIKE '%${filter}%' OR 
+                            i.phone ILIKE '%${filter}%') AND i.deleted = false
                             ORDER BY ${sort} ${order} LIMIT ${pageSize} OFFSET ${pageIndex}`;
 
         return TheDb.selectAll(sql)
@@ -122,6 +123,17 @@ export class Supplier{
             .then((result) => {
                 if (result.changes !== 1) {
                     throw new Error(`Expected 1 Supplier to be deleted. Was ${result.changes}`);
+                }
+            });
+    }
+
+    public static safeDelete(id: number): Promise<void> {
+        const sql = `UPDATE "supplier" SET deleted = true WHERE id = ${id}`;
+
+        return TheDb.delete(sql)
+            .then((result) => {
+                if (result.changes !== 1) {
+                    throw new Error(`Expected 1 Client to be deleted. Was ${result.changes}`);
                 }
             });
     }

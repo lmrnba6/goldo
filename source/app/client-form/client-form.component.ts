@@ -116,7 +116,7 @@ export class ClientFormComponent implements OnInit, OnChanges, OnDestroy {
     public initForm(): void {
         this.name = new FormControl(null, [Validators.required]);
         this.address = new FormControl(null);
-        this.phone = new FormControl(null, [Validators.required]);
+        this.phone = new FormControl(null);
         this.phone2 = new FormControl(null);
 
         this.clientForm = this.fb.group({

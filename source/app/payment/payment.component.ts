@@ -73,7 +73,7 @@ export class PaymentComponent implements OnInit, OnChanges {
         this.block = true;
         Promise.all([
             Payment.getAllPaged(offset, limit, sort, order, this.employee.id),
-            Payment.getCountByEmployee(this.employee.id) ])
+            Payment.getCountByEmployee(this.employee.id)])
             .then(
                 values => {
                     this.block = false;
@@ -151,23 +151,21 @@ export class PaymentComponent implements OnInit, OnChanges {
             .confirm('messages.warning_title', 'messages.remove_row_warning_message', true, 'warning-sign')
             .subscribe(confirm => {
                 if (confirm) {
-                    Payment.get(id).then(() => {
-                        this.block = true;
-                        Payment
-                            .delete(id)
-                            .then(
-                                () => {
-                                    this.block = false;
-                                    this.data = [];
-                                    this.getDataTable(this.pageIndex, this.pageSize, this.sortName, this.sortDirection);
-                                    this.messagesService.notifyMessage(this.translate.instant('messages.operation_success_message'), '', 'success');
-                                },
-                                () => {
-                                    this.block = false;
-                                    this.messagesService.notifyMessage(this.translate.instant('messages.unable_delete_relation'), '', 'error');
-                                }
-                            );
-                    });
+                    this.block = true;
+                    Payment
+                        .safeDelete(id)
+                        .then(
+                            () => {
+                                this.block = false;
+                                this.data = [];
+                                this.getDataTable(this.pageIndex, this.pageSize, this.sortName, this.sortDirection);
+                                this.messagesService.notifyMessage(this.translate.instant('messages.operation_success_message'), '', 'success');
+                            },
+                            () => {
+                                this.block = false;
+                                this.messagesService.notifyMessage(this.translate.instant('messages.unable_delete_relation'), '', 'error');
+                            }
+                        );
                 }
             });
     }

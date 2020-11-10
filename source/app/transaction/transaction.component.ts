@@ -85,8 +85,8 @@ export class TransactionComponent implements OnInit, OnChanges {
                 values => {
                     this.block = false;
                     this.data = {items: values[0], paging: {totalCount: (values[1][0] as any).count}};
-                    this.totalAmount = values[0].reduce((a,b) => Number(a) + Number(b.totalAmount), 0);
-                    this.totalGold = values[0].reduce((a,b) => Number(a) + Number(b.totalGold), 0);
+                    this.totalAmount = values[0].reduce((a, b) => Number(a) + Number(b.totalAmount), 0);
+                    this.totalGold = values[0].reduce((a, b) => Number(a) + Number(b.totalGold), 0);
                 },
                 () => {
                     this.block = false;
@@ -124,7 +124,12 @@ export class TransactionComponent implements OnInit, OnChanges {
         this.setting.filter = !this.client;
         this.setting.addRow = this.isUser || this.isAdmin;
         this.setting.cols = [
-            {columnDef: 'date', header: 'transaction.placeholder.date', type: 'date', cell: (row: any) => `${row.date}`},
+            {
+                columnDef: 'date',
+                header: 'transaction.placeholder.date',
+                type: 'date',
+                cell: (row: any) => `${row.date}`
+            },
             // {
             //     columnDef: 'amountOut',
             //     header: 'transaction.placeholder.amountOut',
@@ -174,7 +179,12 @@ export class TransactionComponent implements OnInit, OnChanges {
                 cell: (row: any) => `${row.responsible}`
             },
         ];
-        !this.client && this.setting.cols.unshift({columnDef: 'client', header: 'transaction.placeholder.client', type: 'text', cell: (row: any) => `${row.client}`})
+        !this.client && this.setting.cols.unshift({
+            columnDef: 'client',
+            header: 'transaction.placeholder.client',
+            type: 'text',
+            cell: (row: any) => `${row.client}`
+        })
         this.setting.cols.push({
             columnDef: 'settings',
             class: 'a10',
@@ -194,23 +204,19 @@ export class TransactionComponent implements OnInit, OnChanges {
             .confirm('messages.warning_title', 'messages.remove_row_warning_message', true, 'warning-sign')
             .subscribe(confirm => {
                 if (confirm) {
-                    Transaction.get(id).then(() => {
-                        this.block = true;
-                        Transaction
-                            .delete(id)
-                            .then(
-                                () => {
-                                    this.block = false;
-                                    this.data = [];
-                                    this.getDataTable(this.pageIndex, this.pageSize, this.sortName, this.sortDirection, this.filter);
-                                    this.messagesService.notifyMessage(this.translate.instant('messages.operation_success_message'), '', 'success');
-                                },
-                                () => {
-                                    this.block = false;
-                                    this.messagesService.notifyMessage(this.translate.instant('messages.unable_delete_relation'), '', 'error');
-                                }
-                            );
-                    });
+                    this.block = true;
+                    Transaction.safeDelete(id)
+                        .then(() => {
+                                this.block = false;
+                                this.data = [];
+                                this.getDataTable(this.pageIndex, this.pageSize, this.sortName, this.sortDirection, this.filter);
+                                this.messagesService.notifyMessage(this.translate.instant('messages.operation_success_message'), '', 'success');
+                            },
+                            () => {
+                                this.block = false;
+                                this.messagesService.notifyMessage(this.translate.instant('messages.unable_delete_relation'), '', 'error');
+                            }
+                        );
                 }
             });
     }

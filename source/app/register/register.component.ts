@@ -34,7 +34,7 @@ export class RegisterComponent implements OnInit, OnChanges {
     public isAdmin: boolean;
     public from = new Date();
     public to = new Date();
-    public soldAll:number = 0;
+    public soldAll: number = 0;
 
     constructor(
         private dialogsService: DialogsService,
@@ -42,7 +42,7 @@ export class RegisterComponent implements OnInit, OnChanges {
         private router: Router,
         private translate: TranslateService,
         private authService: AuthenticationService,
-        ) {
+    ) {
     }
 
     ngOnInit(): void {
@@ -65,7 +65,9 @@ export class RegisterComponent implements OnInit, OnChanges {
 
     public getTotalSold(): void {
         Register.getAll().then(res => {
-            this.soldAll = res.reduce((a: number, b: Register) => { return Number(a) + Number(b.amount)},0);
+            this.soldAll = res.reduce((a: number, b: Register) => {
+                return Number(a) + Number(b.amount)
+            }, 0);
         })
     }
 
@@ -77,11 +79,11 @@ export class RegisterComponent implements OnInit, OnChanges {
         const offset: number = pageIndex * pageSize;
         const limit: number = pageSize;
         this.block = true;
-        Promise.all([ this.tabSelected === 0 ?
-            Register.getAllPaged(offset, limit, sort, order, filter,this.from.setHours(0,0,0,0), this.to.setHours(23,59,59,999))
+        Promise.all([this.tabSelected === 0 ?
+            Register.getAllPaged(offset, limit, sort, order, filter, this.from.setHours(0, 0, 0, 0), this.to.setHours(23, 59, 59, 999))
             : this.tabSelected === 1 ?
-            Register.getAllPagedRecipes(offset, limit, sort, order, filter,this.from.setHours(0,0,0,0), this.to.setHours(23,59,59,999))
-            :             Register.getAllPagedExpenses(offset, limit, sort, order, filter,this.from.setHours(0,0,0,0), this.to.setHours(23,59,59,999)),
+                Register.getAllPagedRecipes(offset, limit, sort, order, filter, this.from.setHours(0, 0, 0, 0), this.to.setHours(23, 59, 59, 999))
+                : Register.getAllPagedExpenses(offset, limit, sort, order, filter, this.from.setHours(0, 0, 0, 0), this.to.setHours(23, 59, 59, 999)),
 
             Register.getCount(this.filter)])
             .then(
@@ -99,8 +101,10 @@ export class RegisterComponent implements OnInit, OnChanges {
     }
 
     public getSold(): number {
-        if(this.data){
-            return this.data.items.reduce((a: number, b: Register) => { return Number(a) + Number(b.amount)},0);
+        if (this.data) {
+            return this.data.items.reduce((a: number, b: Register) => {
+                return Number(a) + Number(b.amount)
+            }, 0);
         }
         return 0;
     }
@@ -133,11 +137,26 @@ export class RegisterComponent implements OnInit, OnChanges {
         this.setting.paging = false;
         this.setting.addRow = true;
         this.setting.cols = [
-            {columnDef: 'amount', header: 'register.placeholder.amount', type: 'text', cell: (row: any) => `${Number(row.amount).toFixed(0)} ${this.translate.instant('transaction.placeholder.dinar')}`},
+            {
+                columnDef: 'amount',
+                header: 'register.placeholder.amount',
+                type: 'text',
+                cell: (row: any) => `${Number(row.amount).toFixed(0)} ${this.translate.instant('transaction.placeholder.dinar')}`
+            },
             {columnDef: 'date', header: 'register.placeholder.date', type: 'date', cell: (row: any) => `${row.date}`},
-            {columnDef: 'comment', header: 'register.placeholder.comment', type: 'text', cell: (row: any) => `${row.comment}`},
-            {columnDef: 'responsible', header: 'register.placeholder.responsible', type: 'text', cell: (row: any) => row.responsible || ''},
-            {columnDef: 'settings',class: 'a10', header: '', type: 'settings', delete: true, editRow: true}
+            {
+                columnDef: 'comment',
+                header: 'register.placeholder.comment',
+                type: 'text',
+                cell: (row: any) => `${row.comment}`
+            },
+            {
+                columnDef: 'responsible',
+                header: 'register.placeholder.responsible',
+                type: 'text',
+                cell: (row: any) => row.responsible || ''
+            },
+            {columnDef: 'settings', class: 'a10', header: '', type: 'settings', delete: true, editRow: true}
         ];
     }
 
@@ -151,7 +170,7 @@ export class RegisterComponent implements OnInit, OnChanges {
                 if (confirm) {
                     this.block = true;
                     Register
-                        .delete(id)
+                        .safeDelete(id)
                         .then(
                             () => {
                                 this.block = false;

@@ -12,10 +12,12 @@ export class TransactionProduct {
     public product: number | Product;
     public transaction: number | TransactionProduct;
     public quantity: number;
-    
+    public deleted: boolean;
     
     public static getAll(): Promise<TransactionProduct[]> {
-        const sql = `SELECT * FROM "transactionProduct"`;
+        const sql = `SELECT * FROM "transactionProduct" as tr
+                        INNER JOIN "transaction" as t on t.id = tr.transaction
+                        WHERE t.deleted = false`;
 
         return TheDb.selectAll(sql)
             .then((rows) => {
@@ -79,6 +81,18 @@ export class TransactionProduct {
                 }
             });
     }
+
+    public static safeDelete(id: number): Promise<void> {
+        const sql = `UPDATE "transactionProduct" SET deleted = true  WHERE id = ${id}`;
+
+        return TheDb.update(sql)
+            .then((result) => {
+                if (result.changes !== 1) {
+                    throw new Error(`Expected 1 User to be deleted. Was ${result.changes}`);
+                }
+            });
+    }
+
 
     private static toTransaction = (o: any): TransactionProduct => {
         const transactionProduct: TransactionProduct = new TransactionProduct();

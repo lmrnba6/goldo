@@ -11,12 +11,13 @@ export class Product {
     public name = '';
     public description = '';
     public price;
-    public quantity;
+    public quantity: any = 0;
     public category = '';
-    public photo = ''
+    public photo = '';
+    public deleted: boolean;
 
     public static getCount(filter: string): Promise<Product[]> {
-        return TheDb.selectAll(`SELECT count(*) as count FROM "product" WHERE name ILIKE '%${filter}%'`)
+        return TheDb.selectAll(`SELECT count(*) as count FROM "product" WHERE name ILIKE '%${filter}%' AND deleted = false`)
             .then((count: any) => count);
     }
 
@@ -34,7 +35,7 @@ export class Product {
     }
 
     public static getAll(): Promise<Product[]> {
-        const sql = `SELECT * FROM "product" ORDER BY name`;
+        const sql = `SELECT * FROM "product" WHERE deleted = false ORDER BY name`;
 
         return TheDb.selectAll(sql)
             .then((rows) => {
@@ -80,7 +81,7 @@ export class Product {
 
 
     public static getAllPaged(pageIndex: number, pageSize: number, sort: string, order: string, filter: string): Promise<Product[]> {
-        const sql = `SELECT * FROM "product" WHERE name ILIKE '%${filter}%'
+        const sql = `SELECT * FROM "product" WHERE name ILIKE '%${filter}%' AND deleted = false
                             ORDER BY ${sort} ${order} LIMIT ${pageSize} OFFSET ${pageIndex}`;
 
         return TheDb.selectAll(sql)
@@ -137,6 +138,17 @@ export class Product {
             .then((result) => {
                 if (result.changes !== 1) {
                     throw new Error(`Expected 1 Product to be deleted. Was ${result.changes}`);
+                }
+            });
+    }
+
+    public static safeDelete(id: number): Promise<void> {
+        const sql = `UPDATE "product" SET deleted = true WHERE id = ${id}`;
+
+        return TheDb.delete(sql)
+            .then((result) => {
+                if (result.changes !== 1) {
+                    throw new Error(`Expected 1 Client to be deleted. Was ${result.changes}`);
                 }
             });
     }

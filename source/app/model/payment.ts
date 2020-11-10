@@ -16,19 +16,20 @@ export class Payment {
     public employee: number | Employee;
     public responsible: number | User;
     public error = 0;
+    public deleted: boolean;
 
     public static getCount(filter: string): Promise<Payment[]> {
         const sql =
             `SELECT count(*) as count FROM "payment" AS p 
                             INNER JOIN "employee" AS i ON p.employee = i.id 
-                            WHERE  i.name ILIKE '%${filter}%' `;
+                            WHERE  i.name ILIKE '%${filter}%' AND p.deleted = false`;
         return TheDb.selectAll(sql)
             .then((count: any) => count);
     }
 
     public static getCountByEmployee(employee: number): Promise<Payment[]> {
         return TheDb.selectAll(`SELECT count(*) as count FROM "payment" AS p INNER JOIN "employee" AS i ON p.employee = i.id 
-                            WHERE i.id = ${employee}`)
+                            WHERE i.id = ${employee} AND p.deleted = false`)
             .then((count: any) => count);
     }
 
@@ -54,6 +55,7 @@ export class Payment {
         const sql = `SELECT p.*, s.name as session_name FROM "payment" p
                             INNER JOIN "employee" AS e ON p.employee = e.id 
                             INNER JOIN "user" AS u ON p.responsible = u.id 
+                            WHERE p.deleted = false
                             ORDER BY p.date DESC`;
 
         return TheDb.selectAll(sql)
@@ -74,7 +76,7 @@ export class Payment {
                             INNER JOIN "employee" AS e ON p.employee = e.id 
                             INNER JOIN "user" AS u ON p.responsible = u.id 
                             WHERE  
-                            e.id = ${employee}
+                            e.id = ${employee} AND p.deleted = false
                             ORDER BY ${sort} ${order} LIMIT ${pageSize} OFFSET ${pageIndex}`;
 
         return TheDb.selectAll(sql)
@@ -128,6 +130,17 @@ export class Payment {
             .then((result) => {
                 if (result.changes !== 1) {
                     throw new Error(`Expected 1 Payment to be deleted. Was ${result.changes}`);
+                }
+            });
+    }
+
+    public static safeDelete(id: number): Promise<void> {
+        const sql = `UPDATE "payment" SET deleted = true  WHERE id = ${id}`;
+
+        return TheDb.update(sql)
+            .then((result) => {
+                if (result.changes !== 1) {
+                    throw new Error(`Expected 1 User to be deleted. Was ${result.changes}`);
                 }
             });
     }

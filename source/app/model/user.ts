@@ -1,4 +1,4 @@
-import { TheDb } from './thedb';
+import {TheDb} from './thedb';
 
 /**
  * class for selecting, inserting, updating and deleting Useres in user table.
@@ -12,10 +12,11 @@ export class User {
     public username = '';
     public password = '';
     public role = '';
+    public deleted: boolean;
 
     public static getCount(filter: string): Promise<User[]> {
-        return TheDb.selectAll(`SELECT count(*) as count FROM "user" u WHERE u.name ILIKE '%${filter}%' OR 
-                                        u.username ILIKE '%${filter}%' OR u.role ILIKE '%${filter}%'`)
+        return TheDb.selectAll(`SELECT count(*) as count FROM "user" u WHERE (u.name ILIKE '%${filter}%' OR 
+                                        u.username ILIKE '%${filter}%' OR u.role ILIKE '%${filter}%') AND u.deleted = false`)
             .then((count: any) => count);
     }
 
@@ -59,7 +60,7 @@ export class User {
     }
 
     public static getAll(): Promise<User[]> {
-        const sql = `SELECT * FROM "user" ORDER BY name`;
+        const sql = `SELECT * FROM "user" ORDER BY name WHERE deleted = false`;
 
         return TheDb.selectAll(sql)
             .then((rows) => {
@@ -72,9 +73,9 @@ export class User {
     }
 
     public static getAllPaged(pageIndex: number, pageSize: number, sort: string, order: string, filter: string): Promise<User[]> {
-        const sql = `SELECT * FROM "user" u WHERE u.name ILIKE '%${filter}%' OR 
+        const sql = `SELECT * FROM "user" u WHERE (u.name ILIKE '%${filter}%' OR 
                             u.username ILIKE '%${filter}%' OR
-                            u.role ILIKE '%${filter}%' 
+                            u.role ILIKE '%${filter}%') AND u.deleted = false 
                             ORDER BY ${sort} ${order} LIMIT ${pageSize} OFFSET ${pageIndex}`;
 
         return TheDb.selectAll(sql)
@@ -135,10 +136,21 @@ export class User {
                 }
             });
     }
-    
+
+    public static safeDelete(id: number): Promise<void> {
+        const sql = `UPDATE "user" SET deleted = true  WHERE id = ${id}`;
+
+        return TheDb.update(sql)
+            .then((result) => {
+                if (result.changes !== 1) {
+                    throw new Error(`Expected 1 User to be deleted. Was ${result.changes}`);
+                }
+            });
+    }
+
     private static toUser = (o: any): User => {
         const user: User = new User();
-        for(let k in o) user[k]=o[k];
+        for (let k in o) user[k] = o[k];
         return user;
     }
 

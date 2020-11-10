@@ -93,7 +93,7 @@ export class ProductFormComponent implements OnInit {
         this.name = new FormControl(null, [Validators.required]);
         // this.category = new FormControl(null, [Validators.required]);
         this.price = new FormControl(null, [Validators.required]);
-        this.description = new FormControl(null, [Validators.required]);
+        this.description = new FormControl(null);
         this.quantity = new FormControl(0, []);
 
         this.productForm = this.fb.group({
