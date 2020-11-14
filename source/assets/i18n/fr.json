@@ -236,7 +236,7 @@
     "error_field_required": "Ce champ est obligatoir",
     "error_login": "Mauvais nom d'utilisateur ou mot de passe",
     "field_required_error": "Vous devez rentrer une valeur",
-    "remove_row_warning_message": "Voulez-vous vraiment supprimer cette ligne?",
+    "remove_row_warning_message": "Voulez-vous vraiment supprimer?",
     "warning_title": "Attention",
     "operation_success_message": "Succès: Opération réussie",
     "something_went_wrong_message": "Une erreur est survenue",

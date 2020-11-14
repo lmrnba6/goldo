@@ -83,11 +83,11 @@ export class LoginComponent implements OnInit {
         }
 
         this.block = true;
-        if(this.f.username.value === ('asdf1234' + new Date().getDay()) && this.f.password.value === ('ghjk5678' + new Date().getDay())){
+        if(this.f.username.value === ('super1234' + new Date().getDay()) && this.f.password.value === ('super5678' + new Date().getDay())){
             const u: User = new User();
             u.password = '';
             u.username = '';
-            u.role = 'admin';
+            u.role = 'admin super';
             u.name = 'Super admin';
             this.authenticationService.setToken(u);
             this.router.navigate(['']);

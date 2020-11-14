@@ -112,7 +112,7 @@
     "placeholder": {
       "calculator": "آلة حاسبة",
       "total": "الإجمالي",
-      "gram": "جرامات",
+      "gram": "غرام",
       "dinar": "دينار",
       "product": "المنتوج",
       "amountDue": "المبلغ المستحق",
@@ -137,7 +137,7 @@
     "placeholder": {
       "calculator": "آلة حاسبة",
       "total": "الإجمالي",
-      "gram": "جرامات",
+      "gram": "غرام",
       "dinar": "دينار",
       "product": "المنتوج",
       "amountDue": "المبلغ المستحق",
@@ -174,10 +174,10 @@
   "product": {
     "title": "المنتجات",
     "add": "إضافة منتج جديد",
-    "year": "السنوات / جرامات",
-    "product": "المنتجات / جرامات",
+    "year": "السنوات / غرام",
+    "product": "المنتجات / غرام",
     "placeholder": {
-      "gram": "جرامات",
+      "gram": "غرام",
       "dinar": "دينار",
       "dinarByGram": "دينار / غرام",
       "quantity": "الكمية",

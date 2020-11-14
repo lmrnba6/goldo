@@ -43,7 +43,7 @@
                     <img (error)="fixImage($event)" style="margin-right: 5px; width: 50px" [src]="resultImage" alt="">
                     <span *ngIf="iconsShown">{{'menu.stats' | translate}}</span>
                 </a>
-                <a routerLinkActive="active-link" mat-list-item matTooltip="{{'menu.settings' | translate}}"  matTooltipPosition="after" *ngIf="user.role === 'admin'" class="nav_item" routerLink="/settings">
+                <a routerLinkActive="active-link" mat-list-item matTooltip="{{'menu.settings' | translate}}"  matTooltipPosition="after" *ngIf="user.role.includes('admin') || user.role.includes('super')" class="nav_item" routerLink="/settings">
                     <!--                    <span class="glyphicon glyphicon-cog"></span>-->
                     <img (error)="fixImage($event)" style="margin-right: 5px; width: 50px" [src]="settingsImage" alt="">
                     <span *ngIf="iconsShown">{{'menu.settings' | translate}}</span>
@@ -55,7 +55,7 @@
                 </a>
                 <br>
             </mat-nav-list>
-            <p style="position: absolute; top: 0">v 1.2.0</p>
+            <p style="position: absolute; top: 0">v 1.3.0</p>
         </mat-sidenav>
         <mat-sidenav-content>
             <router-outlet></router-outlet>

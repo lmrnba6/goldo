@@ -8,7 +8,7 @@ const pg = require("pg");
 
 const tables = ['user', 'product', 'buy', 'buyProduct', 'client', 'transaction', 'transactionProduct', 'comment',
     'employee', 'payment', 'register', 'supplier'];
-const tablesToPost = ['user', 'supplier', 'product', 'client', 'buy', 'transaction'];
+const tablesToPost = ['user', 'supplier', 'product', 'client', 'buy', 'transaction','buyProduct','transactionProduct'];
 
 const client = new pg.Client({
     user: 'postgres',
@@ -67,10 +67,10 @@ app.put('/user', function (req, res, next) {
              WHERE id = ${req.body.id} RETURNING *`, res, next);
 });
 
-app.post('/postAllData', function (req, res, next) {
+app.post('/postAllData', async function (req, res, next) {
+    console.log('Executing PostAllDAta');
     const promises = [];
     const dataToPost = req.body;
-    console.log('Executing PostAllDAta');
     console.log(dataToPost);
     tablesToPost.forEach((t) => {
         const table = dataToPost[t];
@@ -78,49 +78,43 @@ app.post('/postAllData', function (req, res, next) {
             console.log('Executing Table ' + t);
             table.forEach(m => {
                 if (t === 'transaction') {
-                    promises.push(client.query(`DELETE FROM "transactionProduct" WHERE transaction = ${m.id}`));
-                    dataToPost['transactionProduct'].forEach(t => {
-                        if (m.id === t.transaction) {
-                            promises.push(client.query(getScripts(t).transactionProduct.insert));
-                        }
-                    });
+                    console.log(`If Transaction delete all transactionProduct`);
+                    promises.push(client.query({text: `DELETE FROM "transactionProduct" WHERE transaction = ${m.id}`}));
+                    // dataToPost['transactionProduct'].forEach(x => {
+                    //     if (Number(m.id) === Number(x.transaction)) {
+                    //         console.log(`INSERT transactionProduct transaction: ` + x.transaction + ' product: ' + x.product);
+                    //         promises.push(client.query({text: getScripts(x).transactionProduct}));
+                    //     }
+                    // });
                 }
                 if (t === 'buy') {
-                    promises.push(client.query(`DELETE FROM "buyProduct" WHERE buy = ${m.id}`));
-                    dataToPost['buyProduct'].forEach(t => {
-                        if (m.id === t.buy) {
-                            promises.push(client.query(getScripts(t).buyProduct.insert));
-                        }
-                    });
+                    promises.push(client.query({text: `DELETE FROM "buyProduct" WHERE buy = ${m.id}`}));
+                    // dataToPost['buyProduct'].forEach(x => {
+                    //     if (Number(m.id) === Number(x.buy)) {
+                    //         console.log(`INSERT transactionProduct buy: ` + x.buy + ' product: ' + x.product);
+                    //         promises.push(client.query({text: getScripts(x).buyProduct}));
+                    //     }
+                    // });
 
                 }
-                console.log(`SELECT id FROM "${t}" WHERE id = ${m.id}`);
-                client.query(`SELECT id FROM "${t}" WHERE id = ${m.id}`).then(val => {
-                    console.log(val)
-                    if (val && val.rows && val.rows.length) {
-                        console.log('IF UPDATE ' + getScripts(m)[t].insert)
-                        promises.push(client.query(getScripts(m)[t].update));
-                    } else {
-                        console.log('IF INSERT ' + getScripts(m)[t].insert)
-                        promises.push(client.query(getScripts(m)[t].insert));
-                    }
-                });
+                console.log('INSERT NORMAL')
+                promises.push(client.query({text: getScripts(m)[t]}));
             });
         }
     });
-    console.log(promises);
-    Promise.all(promises).then(() => {
-            console.log('PostAllData Done!');
-            res.send({});
-        }
-    ).catch(
-        (err) => {
-            next(err);
-            console.log('PostAllData ERROR!');
-            writeLogsFile(moment().format('DD-MM-YYYY-HH:mm:ss') + ': Trying --> POST_ALL_DATA + GET_ALL_DATA Received --> ' + err)
-        }
-    );
-});
+    try {
+        console.log('LOOP DONE PROMISES READY TO EXECUTE');
+        await Promise.all(promises);
+        console.log('POST_ALL_DATA DONE!');
+        res.send({});
+    } catch (err) {
+        console.log('POST_ALL_DATA ERROR! ' + err);
+        next(err);
+        writeLogsFile(moment().format('DD-MM-YYYY-HH:mm:ss') + ': Trying --> POST_ALL_DATA + GET_ALL_DATA Received --> ' + err)
+    }
+    ;
+})
+;
 
 app.get('/getAllData', function (req, res, next) {
     console.log('Executing GetAllData');
@@ -159,94 +153,69 @@ app.listen(3000);
 
 function getScripts(m) {
     return {
-        product: {
-            insert: `
-            INSERT INTO "product" (name, description,category, price, quantity, photo)
-            VALUES('${m.name}', '${m.description ? m.description.replace(/\'/g, "''") : ''}',
+        product: `INSERT INTO "product" (id, name, description,category, price, quantity, photo)
+            VALUES(${m.id}, '${m.name}', '${m.description ? m.description.replace(/\'/g, "''") : ''}',
             '${m.category ? m.category.replace(/\'/g, "''") : ''}', 
-            ${m.price}, ${m.quantity}, '${m.photo}') RETURNING *`,
-            update: `UPDATE "product"
+            ${m.price}, ${m.quantity}, '${m.photo}') ON CONFLICT (id) DO UPDATE
                SET name = '${m.name}', description = '${m.description ? m.description.replace(/\'/g, "''") : ''}', 
                category = '${m.category ? m.category.replace(/\'/g, "''") : ''}', 
-               price = ${m.price}, quantity = ${m.quantity}, photo = '${m.photo}' WHERE id = ${m.id} RETURNING *`
-        },
-        client: {
-            insert: `INSERT INTO "client" (name, address, phone, phone2, "blocked", photo)
-            VALUES('${m.name ? m.name.replace(/\'/g, "''") : ''}',
+               price = ${m.price}, quantity = ${m.quantity}, photo = '${m.photo}', deleted = ${m.deleted || false} `
+        ,
+        client: `INSERT INTO "client" (id,name, address, phone, phone2, "blocked", photo)
+            VALUES(${m.id}, '${m.name ? m.name.replace(/\'/g, "''") : ''}',
             '${m.address ? m.address.replace(/\'/g, "''") : ''}', '${m.phone}', 
-            '${m.phone2}', ${m.blocked}, '${m.photo}') RETURNING *`,
-            update: `UPDATE "client"
+            '${m.phone2}', ${m.blocked}, '${m.photo}') ON CONFLICT (id) DO UPDATE
                SET name = '${m.name ? m.name.replace(/\'/g, "''") : ''}', 
                address = '${m.address ? m.address.replace(/\'/g, "''") : ''}', phone = '${m.phone}', 
                 phone2 = '${m.phone2}', "blocked" = ${m.blocked}, 
-                photo = '${m.photo}'  
-             WHERE id = ${m.id} RETURNING *`
-        },
-        supplier: {
-            insert: `INSERT INTO "supplier" (name, address, phone, phone2, "blocked", photo)
-            VALUES('${m.name ? m.name.replace(/\'/g, "''") : ''}',
+                photo = '${m.photo}', deleted = ${m.deleted || false} 
+             `
+        ,
+        supplier: `INSERT INTO "supplier" (id, name, address, phone, phone2, "blocked", photo)
+            VALUES(${m.id}, '${m.name ? m.name.replace(/\'/g, "''") : ''}',
             '${m.address ? m.address.replace(/\'/g, "''") : ''}', '${m.phone}', 
-            '${m.phone2}', ${m.blocked}, '${m.photo}') RETURNING *`,
-            update: `UPDATE "supplier"
+            '${m.phone2}', ${m.blocked}, '${m.photo}') ON CONFLICT (id) DO UPDATE
                SET name = '${m.name ? m.name.replace(/\'/g, "''") : ''}', 
                address = '${m.address ? m.address.replace(/\'/g, "''") : ''}', phone = '${m.phone}', 
                 phone2 = '${m.phone2}', "blocked" = ${m.blocked}, 
-                photo = '${m.photo}'  
-             WHERE id = ${m.id} RETURNING *`
-        },
-        transaction: {
-            insert: `INSERT INTO "transaction" ("amountIn", "amountOut", "goldIn", "goldOut", "amountDue", "totalAmount", "totalGold", date, comment,type, client, responsible)
-            VALUES(${m.amountIn},${m.amountOut},${m.goldIn}, ${m.goldOut},${m.amountDue},
+                photo = '${m.photo}', deleted = ${m.deleted || false} 
+             `
+        ,
+        transaction: `INSERT INTO "transaction" (id, "amountIn", "amountOut", "goldIn", "goldOut", "amountDue", "totalAmount", "totalGold", date, comment,type, client, responsible)
+            VALUES(${m.id}, ${m.amountIn},${m.amountOut},${m.goldIn}, ${m.goldOut},${m.amountDue},
             ${m.totalAmount},${m.totalGold}, '${m.date}', '${m.comment ? m.comment.replace(/\'/g, "''") : ''}', '${m.type}',
-            ${m.client}, ${m.responsible}) RETURNING *`,
-            update: `UPDATE "transaction"
+            ${m.client}, ${m.responsible}) ON CONFLICT (id) DO UPDATE
                SET "amountIn" = ${m.amountIn}, "amountOut" = ${m.amountOut},"goldIn" = ${m.goldIn},
                "goldOut" = ${m.goldOut},"amountDue" = ${m.amountDue},"totalAmount" = ${m.totalAmount},
                "totalGold" = ${m.totalGold}, date = '${m.date}', type='${m.type}',
                comment = '${m.comment ? m.comment.replace(/\'/g, "''") : ''}'
-               , client = ${m.client}, responsible = ${m.responsible}
-             WHERE id = ${m.id}`
-        },
-        buy: {
-            insert: `INSERT INTO "buy" ("amountIn", "amountOut", "goldIn", "goldOut", "amountDue", "totalAmount", "totalGold", date, comment,type, supplier, responsible)
-            VALUES(${m.amountIn},${m.amountOut},${m.goldIn}, ${m.goldOut},${m.amountDue},
+               , client = ${m.client}, responsible = ${m.responsible}, deleted = ${m.deleted || false}
+             `
+        ,
+        buy: `INSERT INTO "buy" (id, "amountIn", "amountOut", "goldIn", "goldOut", "amountDue", "totalAmount", "totalGold", date, comment,type, supplier, responsible)
+            VALUES(${m.id}, ${m.amountIn},${m.amountOut},${m.goldIn}, ${m.goldOut},${m.amountDue},
             ${m.totalAmount},${m.totalGold}, '${m.date}', '${m.comment ? m.comment.replace(/\'/g, "''") : ''}', '${m.type}',
-            ${m.supplier}, ${m.responsible}) RETURNING *`,
-            update: ` UPDATE "buy"
+            ${m.supplier}, ${m.responsible}) ON CONFLICT (id) DO UPDATE
                SET "amountIn" = ${m.amountIn}, "amountOut" = ${m.amountOut},"goldIn" = ${m.goldIn},
                "goldOut" = ${m.goldOut},"amountDue" = ${m.amountDue},"totalAmount" = ${m.totalAmount},
                "totalGold" = ${m.totalGold}, date = '${m.date}', type='${m.type}',
                comment = '${m.comment ? m.comment.replace(/\'/g, "''") : ''}'
-               , supplier = ${m.supplier}, responsible = ${m.responsible}
-             WHERE id = ${m.id}`
-        },
-        transactionProduct: {
-            insert: `INSERT INTO "transactionProduct" ("product", "transaction", "quantity")
+               , supplier = ${m.supplier}, responsible = ${m.responsible}, deleted = ${m.deleted || false}
+             `
+        ,
+        transactionProduct: `INSERT INTO "transactionProduct" ("product", "transaction", "quantity")
             VALUES(${m.product},${m.transaction},${m.quantity})`,
-            update: `UPDATE "transactionProduct"
-               SET "product" = ${m.product}, "transaction" = ${m.transaction},"quantity" = ${m.quantity}            
-             WHERE id = ${m.id}`
-        },
-        buyProduct: {
-            insert: `INSERT INTO "buyProduct" ("product", "buy", "quantity")
+        buyProduct: `INSERT INTO "buyProduct" ("product", "buy", "quantity")
             VALUES(${m.product},${m.buy},${m.quantity})`,
-            update: `UPDATE "buyProduct"
-               SET "product" = ${m.product}, "buy" = ${m.buy},"quantity" = ${m.quantity}            
-             WHERE id = ${m.id}`
-        },
-        user: {
-            insert: `INSERT INTO "user" (name, username, password, role) 
-            VALUES('${m.name ? m.name.replace(/\'/g, "''") : ''}', 
+        user: `INSERT INTO "user" (id, name, username, password, role) 
+            VALUES(${m.id}, '${m.name ? m.name.replace(/\'/g, "''") : ''}', 
             '${m.username ? m.username.replace(/\'/g, "''") : ''}',
              '${m.password ? m.password.replace(/\'/g, "''") : ''}', 
-             '${m.role}') RETURNING *`,
-            update: `UPDATE "user"
+             '${m.role}') ON CONFLICT (id) DO UPDATE
                SET name = '${m.name ? m.name.replace(/\'/g, "''") : ''}',
                 username = '${m.username ? m.username.replace(/\'/g, "''") : ''}',
                  password = '${m.password ? m.password.replace(/\'/g, "''") : ''}', 
-                 role = '${m.role}'
-             WHERE id = ${m.id} RETURNING *`
-        }
+                 role = '${m.role}', deleted = ${m.deleted || false}`
     }
 }
 

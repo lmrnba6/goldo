@@ -32,7 +32,7 @@ export class AppComponent {
     }
 
     constructor(translate: TranslateService, router: Router) {
-        localStorage.clear();
+        localStorage.removeItem('AUTH_TOKEN');
         router.events.subscribe((event: RouterEvent) => {
             this.navigationInterceptor(event)
         });

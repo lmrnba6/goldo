@@ -4,10 +4,13 @@ import {AbstractTableSetting} from "../model/abstractTableSetting";
 import {Product} from "../model/product";
 import {Transaction} from "../model/transaction";
 import {Buy} from "../model/buy";
+import {AuthenticationService} from "../_services/authentication.service";
+import moment = require("moment");
+import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html'
+    selector: 'app-home',
+    templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit {
 
@@ -35,9 +38,11 @@ export class HomeComponent implements OnInit {
     public totalGold = 0;
     public totalAmountBuy = 0;
     public totalGoldBuy = 0;
-    constructor() {}
 
-    getPath(){
+    constructor(private auth: AuthenticationService, private router: Router) {
+    }
+
+    getPath() {
         const l = window.location.href.split('/');
         const c = l.length - l.indexOf('index.html');
         return '../'.repeat(c);
@@ -48,6 +53,11 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        const exp = localStorage.getItem('expiration');
+        if (!this.auth.getCurrentUser().role.includes('super') && exp && moment(Number(exp)).isBefore(moment())) {
+            this.auth.logout();
+            this.router.navigate(['/login']);
+        }
         this.block = true;
         Promise.all([Transaction.getCount(''), Product.getCount('')]).then(
             values => {
@@ -61,14 +71,14 @@ export class HomeComponent implements OnInit {
 
     public getSold(): void {
         this.block = true;
-            Promise.all([Transaction.getAll(), Buy.getAll()]).then(
-                values => {
-                    this.block = false;
-                    this.totalAmount = values[0].reduce((a,b) => Number(a) + Number(b.totalAmount), 0);
-                    this.totalGold = values[0].reduce((a,b) => Number(a) + Number(b.totalGold), 0);
-                    this.totalAmountBuy = values[1].reduce((a,b) => Number(a) + Number(b.totalAmount), 0);
-                    this.totalGoldBuy = values[1].reduce((a,b) => Number(a) + Number(b.totalGold), 0);
-                });
+        Promise.all([Transaction.getAll(), Buy.getAll()]).then(
+            values => {
+                this.block = false;
+                this.totalAmount = values[0].reduce((a, b) => Number(a) + Number(b.totalAmount), 0);
+                this.totalGold = values[0].reduce((a, b) => Number(a) + Number(b.totalGold), 0);
+                this.totalAmountBuy = values[1].reduce((a, b) => Number(a) + Number(b.totalAmount), 0);
+                this.totalGoldBuy = values[1].reduce((a, b) => Number(a) + Number(b.totalGold), 0);
+            });
     }
 
     fixImage(event: any) {
